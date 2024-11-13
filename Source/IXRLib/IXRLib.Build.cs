@@ -40,7 +40,8 @@ public class IXRLib : ModuleRules
 				"Engine",
 				"Slate",
 				"SlateCore",
-				"Projects"
+				"Projects",
+				"DeveloperSettings"
 			}
 		);
 
@@ -64,6 +65,9 @@ public class IXRLib : ModuleRules
 		// LoadThirdPartyLibrary("iXRLibStatic", Target);
 		LoadThirdPartyLibrary("iXRLibShared", Target);
 		PublicDelayLoadDLLs.Add("iXRLibShared.dll");
+		PublicDelayLoadDLLs.Add("libcurl.dll");
+		PublicDelayLoadDLLs.Add("sqlite3x64.dll");
+		PublicDelayLoadDLLs.Add("zlib1.dll");
 	}
 	public void LoadThirdPartyLibrary(string libname, ReadOnlyTargetRules Target)
 	{
