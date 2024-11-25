@@ -2,14 +2,20 @@
 
 
 #include "IXRBlueprintLibrary.h"
-#include "Interface.h"
+
+#include "FStringToCharConverter.h"
 #include "iXRDeveloperSettings.h"
 
 
+
 char16_t* FStringToChar16Ptr(const FString& UnrealString) {
-	TArray<TCHAR> CharArray = UnrealString.GetCharArray();
-	char16_t* Char16Ptr = reinterpret_cast<char16_t*>(CharArray.GetData());
-	return Char16Ptr;
+	UFStringToCharConverter* Converter = NewObject<UFStringToCharConverter>();
+	return Converter->Convert(UnrealString);
+	
+	// TArray<TCHAR> CharArray = UnrealString.GetCharArray();
+	// char16_t* Char16Ptr = reinterpret_cast<char16_t*>(CharArray.GetData());
+	//
+	// return Char16Ptr;
 }
 
 FString Char16PtrToFString(const char16_t* Char16Ptr) {
@@ -19,22 +25,41 @@ FString Char16PtrToFString(const char16_t* Char16Ptr) {
 
 uint32_t IntToUint32(const int UnrealInt) { return static_cast<uint32_t>(UnrealInt); }
 
+FString UIXRBlueprintLibrary::GetConvertedString(FString String)
+{
+	char16_t* Char16Ptr = FStringToChar16Ptr(String);
+	return Char16PtrToFString(Char16Ptr);
+}
+
 void UIXRBlueprintLibrary::StartIXRLib_BFL()
 {
 	iXRLibInitStart();
-	SetServingCSharp(true);
-	UE_LOG(LogTemp, Warning, TEXT("FORCE Send ---> %d"), ForceSendUnsentSynchronous());
-	const char16_t* appID =  reinterpret_cast<const char16_t*>(*UiXRDeveloperSettings::GetiXRConfig()->appID);
-	const char16_t* orgID =  reinterpret_cast<const char16_t*>(*UiXRDeveloperSettings::GetiXRConfig()->orgID);
-	const char16_t* deviceID =  reinterpret_cast<const char16_t*>(*FGuid::NewGuid().ToString());
-	const char16_t* authSecret =  reinterpret_cast<const char16_t*>(*UiXRDeveloperSettings::GetiXRConfig()->authSecret);
-	const char16_t* TestStr =  reinterpret_cast<const char16_t*>(TEXT("iXR lib dll Hello!"));
-	int StatusIndex = Authenticate(appID, orgID, deviceID, authSecret, 0);
-	UE_LOG(LogTemp, Warning, TEXT("Authenticated = %d"), StatusIndex);
-	LogInfo(TestStr);
-	LogWarn(TestStr);
-	LogError(TestStr);
-	LogWarnSynchronous(TestStr);
+	// SetServingCSharp(true);
+	char16_t array[] = u"https://libapi.informxr.io/v1/"; // u prefix denotes UTF-16 literals
+	char16_t* ptr = array;
+	
+	SetRestUrl_BFL(*UiXRDeveloperSettings::GetiXRConfig()->restUrl);
+	// set_RestUrl(ptr);
+	
+	SetSendRetriesOnFailure_BFL(UiXRDeveloperSettings::GetiXRConfig()->sendRetriesOnFailure);
+	SetSendRetryInterval_BFL(UiXRDeveloperSettings::GetiXRConfig()->sendRetryIntervalSeconds);
+	SetSendNextBatchWait_BFL(UiXRDeveloperSettings::GetiXRConfig()->sendNextBatchWaitSeconds);
+	SetStragglerTimeout_BFL(UiXRDeveloperSettings::GetiXRConfig()->stragglerTimeoutSeconds);
+	SetEventsPerSendAttempt_BFL(UiXRDeveloperSettings::GetiXRConfig()->eventsPerSendAttempt);
+	SetLogsPerSendAttempt_BFL(UiXRDeveloperSettings::GetiXRConfig()->logsPerSendAttempt);
+	SetTelemetryEntriesPerSendAttempt_BFL(UiXRDeveloperSettings::GetiXRConfig()->telemetryEntriesPerSendAttempt);
+	SetStorageEntriesPerSendAttempt_BFL(UiXRDeveloperSettings::GetiXRConfig()->storageEntriesPerSendAttempt);
+	SetPruneSentItemsOlderThan_BFL(UiXRDeveloperSettings::GetiXRConfig()->pruneSentItemsOlderThanHours);
+	SetMaximumCachedItems_BFL(UiXRDeveloperSettings::GetiXRConfig()->maximumCachedItems);
+	SetRetainLocalAfterSent_BFL(UiXRDeveloperSettings::GetiXRConfig()->retainLocalAfterSent);
+	
+	int StatusIndex = Authenticate_BFL(UiXRDeveloperSettings::GetiXRConfig()->appID, UiXRDeveloperSettings::GetiXRConfig()->orgID,
+			FGuid::NewGuid().ToString(), UiXRDeveloperSettings::GetiXRConfig()->authSecret, 0);
+	UE_LOG(LogTemp, Warning, TEXT("Authenticated ====> %d"), StatusIndex);
+	LogInfo_BFL(TEXT("TestStr"));
+	// LogWarn(TestStr);
+	// LogError(TestStr);
+	// LogWarnSynchronous(TestStr);
 }
 
 void UIXRBlueprintLibrary::iXRLibInitStart_BFL()
@@ -48,8 +73,16 @@ void UIXRBlueprintLibrary::iXRLibInitEnd_BFL()
 int UIXRBlueprintLibrary::Authenticate_BFL(const FString szAppId, const FString szOrgId, const FString szDeviceId,
 	const FString szAuthSecret, const int ePartner)
 {
+	// char16_t App_array[] = u"2a1a133e-b885-46db-8da0-4bf53e71152a"; // u prefix denotes UTF-16 literals
+	// char16_t* App_ptr = App_array;
+	// char16_t Org_array[] = u"16d6e666-4127-4a79-92bc-3e79ac83697e"; // u prefix denotes UTF-16 literals
+	// char16_t* Org_ptr = Org_array;
+	// char16_t Device_array[] = u"1234567890123456"; // u prefix denotes UTF-16 literals
+	// char16_t* Device_ptr = Device_array;
+	// char16_t Auth_array[] = u"FtmxUeqreQT6nUhuq0venKz1SKjxhIg6KkGtfnE7OmLSAhKl3oVfdIAuJr6LBvO0"; // u prefix denotes UTF-16 literals
+	// char16_t* Auth_ptr = Auth_array;
 	return Authenticate(FStringToChar16Ptr(szAppId), FStringToChar16Ptr(szOrgId),
-						FStringToChar16Ptr(szDeviceId), FStringToChar16Ptr(szAuthSecret), IntToUint32(ePartner));
+		FStringToChar16Ptr(szDeviceId), FStringToChar16Ptr(szAuthSecret), 0);
 }
 
 int UIXRBlueprintLibrary::ReAuthenticate_BFL(const bool bObtainAuthSecret)

@@ -51,6 +51,12 @@ public class IXRLib : ModuleRules
 		);
 		AddEngineThirdPartyPrivateStaticDependencies(Target, "libcurl");
 		// AddEngineThirdPartyPrivateStaticDependencies(Target, "OpenSSL");
+		if (Target.Platform == UnrealTargetPlatform.Android)
+		{
+			PublicIncludePaths.Add(Path.Combine(ModuleDirectory, "../ThirdParty", Target.Platform.ToString(), "includes"));
+			PublicAdditionalLibraries.Add(Path.Combine(ModuleDirectory, "../ThirdParty", Target.Platform.ToString(), "libraries/libiXRLibShared.so") );
+			PublicDefinitions.Add("_UNIX");
+		}
 		if (Target.Platform == UnrealTargetPlatform.Win64)
 		{
 			PublicIncludePaths.Add(Path.Combine(ModuleDirectory, "../ThirdParty", Target.Platform.ToString(), "includes"));
@@ -68,6 +74,8 @@ public class IXRLib : ModuleRules
 		PublicDelayLoadDLLs.Add("libcurl.dll");
 		PublicDelayLoadDLLs.Add("sqlite3x64.dll");
 		PublicDelayLoadDLLs.Add("zlib1.dll");
+		RuntimeDependencies.Add("iXRLibShared.pdb");
+		RuntimeDependencies.Add("iXRLibStatic.pdb");
 	}
 	public void LoadThirdPartyLibrary(string libname, ReadOnlyTargetRules Target)
 	{
