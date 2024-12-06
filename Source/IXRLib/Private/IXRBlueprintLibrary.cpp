@@ -565,7 +565,7 @@ int UIXRBlueprintLibrary::iXRLibAnalyticsTestsInterop_BFL(const FString bstrComm
 	return iXRLibAnalyticsTestsInterop(FStringToChar16Ptr(bstrCommandLine));
 }
 
-FString UIXRBlueprintLibrary::TestGetAuthSecretCallback_BFL()
-{
-	return Char16PtrToFString(TestGetAuthSecretCallback());
-}
+// FString UIXRBlueprintLibrary::TestGetAuthSecretCallback_BFL()
+// {
+// 	return Char16PtrToFString(TestGetAuthSecretCallback());
+// }

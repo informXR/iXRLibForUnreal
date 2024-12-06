@@ -53,14 +53,20 @@ public class IXRLib : ModuleRules
 		// AddEngineThirdPartyPrivateStaticDependencies(Target, "OpenSSL");
 		if (Target.Platform == UnrealTargetPlatform.Android)
 		{
+			string PluginPath = Utils.MakePathRelativeTo(ModuleDirectory, Target.RelativeEnginePath);
+			AdditionalPropertiesForReceipt.Add("AndroidPlugin", Path.Combine(PluginPath, "iXRLib_Android_UPL.xml"));
+			// PublicAdditionalLibraries.Add(PluginPath + "libiXRLibShared.so");
+			
 			PublicIncludePaths.Add(Path.Combine(ModuleDirectory, "../ThirdParty", Target.Platform.ToString(), "includes"));
-			PublicAdditionalLibraries.Add(Path.Combine(ModuleDirectory, "../ThirdParty", Target.Platform.ToString(), "libraries/libiXRLibShared.so") );
+			
+			PublicAdditionalLibraries.Add(Path.Combine(ModuleDirectory, "../ThirdParty", Target.Platform.ToString(), "libraries/libiXRLibShared.so"));
+			RuntimeDependencies.Add(Path.Combine(ModuleDirectory, "../ThirdParty", Target.Platform.ToString(), "libraries/libiXRLibShared.so"));
+			
 			PublicDefinitions.Add("_UNIX");
 		}
 		if (Target.Platform == UnrealTargetPlatform.Win64)
 		{
 			PublicIncludePaths.Add(Path.Combine(ModuleDirectory, "../ThirdParty", Target.Platform.ToString(), "includes"));
-			// PublicRuntimeLibraryPaths.Add(Path.Combine(ModuleDirectory, "../ThirdParty", Target.Platform.ToString(), "libraries/iXRLibShared.dll"));
 			HandleWindows(Target);
 		}
 	}

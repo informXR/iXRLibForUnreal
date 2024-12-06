@@ -4,9 +4,7 @@
 
 // #include "Windows/AllowWindowsPlatformTypes.h"
 #if PLATFORM_ANDROID
-THIRD_PARTY_INCLUDES_START
-
-THIRD_PARTY_INCLUDES_END
+#undef DLLEXPORT
 // #include "Windows/HideWindowsPlatformTypes.h"
 #endif
 #include <Interface.h>
@@ -325,7 +323,7 @@ public:
 	UFUNCTION(BlueprintCallable, Category = "iXRLib")
 	static int iXRLibAnalyticsTestsInterop_BFL(const FString bstrCommandLine);
 	
-	UFUNCTION(BlueprintCallable, Category = "iXRLib")
-	static FString TestGetAuthSecretCallback_BFL();
+	// UFUNCTION(BlueprintCallable, Category = "iXRLib")
+	// static FString TestGetAuthSecretCallback_BFL();
 	
 };
