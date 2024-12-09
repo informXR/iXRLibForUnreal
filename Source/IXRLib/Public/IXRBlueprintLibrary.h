@@ -323,7 +323,7 @@ public:
 	UFUNCTION(BlueprintCallable, Category = "iXRLib")
 	static int iXRLibAnalyticsTestsInterop_BFL(const FString bstrCommandLine);
 	
-	// UFUNCTION(BlueprintCallable, Category = "iXRLib")
-	// static FString TestGetAuthSecretCallback_BFL();
+	UFUNCTION(BlueprintCallable, Category = "iXRLib")
+	static FString TestGetAuthSecretCallback_BFL();
 	
 };

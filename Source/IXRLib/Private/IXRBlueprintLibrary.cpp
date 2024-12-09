@@ -540,7 +540,6 @@ bool UIXRBlueprintLibrary::GetNextDiagnosticString_BFL(FString& pbstrString)
 
 }
 
-// TODO:
 uint8 UIXRBlueprintLibrary::HTTPGet_BFL(const FString bstrUrl, FString& pbstrResponse)
 {
 	char16_t* char16Str = nullptr;
@@ -550,7 +549,6 @@ uint8 UIXRBlueprintLibrary::HTTPGet_BFL(const FString bstrUrl, FString& pbstrRes
 	return 0;
 }
 
-// TODO:
 uint8 UIXRBlueprintLibrary::HTTPPost_BFL(const FString bstrUrl, FString& pbstrResponse)
 {
 	char16_t* char16Str = nullptr;
@@ -565,7 +563,7 @@ int UIXRBlueprintLibrary::iXRLibAnalyticsTestsInterop_BFL(const FString bstrComm
 	return iXRLibAnalyticsTestsInterop(FStringToChar16Ptr(bstrCommandLine));
 }
 
-// FString UIXRBlueprintLibrary::TestGetAuthSecretCallback_BFL()
-// {
-// 	return Char16PtrToFString(TestGetAuthSecretCallback());
-// }
+FString UIXRBlueprintLibrary::TestGetAuthSecretCallback_BFL()
+{
+	return Char16PtrToFString(TestGetAuthSecretCallback());
+}
