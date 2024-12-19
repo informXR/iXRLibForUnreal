@@ -187,6 +187,7 @@ extern "C" DLLEXPORT void iXRLibInitStart();
 extern "C" DLLEXPORT void iXRLibInitEnd();
 // ---
 extern "C" DLLEXPORT uint32_t Authenticate(const char16_t* szAppId, const char16_t* szOrgId, const char16_t* szDeviceId, const char16_t* szAuthSecret, const uint32_t ePartner);
+extern "C" DLLEXPORT uint32_t FinalAuthenticate();
 extern "C" DLLEXPORT uint32_t ReAuthenticate(const bool bObtainAuthSecret);
 extern "C" DLLEXPORT uint32_t ForceSendUnsentSynchronous();
 // ---
@@ -206,6 +207,18 @@ extern "C" DLLEXPORT uint32_t LogCritical(const char16_t* szText);
 // ---
 extern "C" DLLEXPORT uint32_t EventSynchronous(const char16_t* szMessage, const char16_t* szdictMeta);
 extern "C" DLLEXPORT uint32_t Event(const char16_t* szMessage, const char16_t* szdictMeta);
+// --- Convenient wrappers for particular forms of events.
+extern "C" DLLEXPORT uint32_t EventAssessmentStart(const char16_t* szAssessmentName, const char16_t* szdictMeta);
+extern "C" DLLEXPORT uint32_t EventAssessmentComplete(const char16_t* szAssessmentName, const char16_t* szScore, const uint32_t eResultOptions, const char16_t* szdictMeta);
+// ---
+extern "C" DLLEXPORT uint32_t EventObjectiveStart(const char16_t* szObjectiveName, const char16_t* szdictMeta);
+extern "C" DLLEXPORT uint32_t EventObjectiveComplete(const char16_t* szObjectiveName, const char16_t* szScore, const uint32_t eResultOptions, const char16_t* szdictMeta);
+// ---
+extern "C" DLLEXPORT uint32_t EventInteractionStart(const char16_t* szInteractionName, const char16_t* szdictMeta);
+extern "C" DLLEXPORT uint32_t EventInteractionComplete(const char16_t* szInteractionName, const char16_t* szResult, const char16_t* szResultDetails, uint32_t eInteractionType, const char16_t* szdictMeta);
+// ---
+extern "C" DLLEXPORT uint32_t EventLevelStart(const char16_t* szLevelName, const char16_t* szdictMeta);
+extern "C" DLLEXPORT uint32_t EventLevelComplete(const char16_t* szLevelName, const char16_t* szScore, const char16_t* szdictMeta);
 // ---
 extern "C" DLLEXPORT uint32_t AddAIProxySynchronous(const char16_t* szPrompt, const char16_t* szPastMessages, const char16_t* szLMMProvider);
 extern "C" DLLEXPORT uint32_t AddAIProxy(const char16_t* szPrompt, const char16_t* szPastMessages, const char16_t* szLMMProvider);
@@ -234,7 +247,7 @@ extern "C" DLLEXPORT bool TokenExpirationImminent();
 // ---
 extern "C" DLLEXPORT const uint32_t get_Partner();
 extern "C" DLLEXPORT void set_Partner(const uint32_t ePartner);
-// --- Environment/session globals that get sent with the auth payload on Authenticate().
+// --- Environment/session globals that get sent with the auth payload in Authenticate() functions.
 extern "C" DLLEXPORT const char16_t* get_OsVersion();
 extern "C" DLLEXPORT void set_OsVersion(const char16_t* szOsVersion);
 // ---
@@ -250,14 +263,23 @@ extern "C" DLLEXPORT void set_AppVersion(const char16_t* szAppVersion);
 extern "C" DLLEXPORT const char16_t* get_UnityVersion();
 extern "C" DLLEXPORT void set_UnityVersion(const char16_t* szUnityVersion);
 // ---
+extern "C" DLLEXPORT const char16_t* get_DataPath();
+extern "C" DLLEXPORT void set_DataPath(const char16_t* szDataPath);
+// ---
 extern "C" DLLEXPORT const char16_t* get_DeviceModel();
 extern "C" DLLEXPORT void set_DeviceModel(const char16_t* szDeviceModel);
+// ---
+extern "C" DLLEXPORT const char16_t* get_UserId();
+extern "C" DLLEXPORT void set_UserId(const char16_t* szUserId);
 // ---
 extern "C" DLLEXPORT const char16_t* get_Tags();
 extern "C" DLLEXPORT void set_Tags(const char16_t* szlszTags);
 // ---
 extern "C" DLLEXPORT const char16_t* get_GeoLocation();
-extern "C" DLLEXPORT void set_GeoLocation(const char16_t* szdictGeoLocation);
+extern "C" DLLEXPORT void set_GeoLocation(const char16_t* szdictValue);
+// ---
+extern "C" DLLEXPORT const char16_t* get_SessionAuthMechanism();
+extern "C" DLLEXPORT void set_SessionAuthMechanism(const char16_t* szdictValue);
 // --- Environment / Storage functions.
 extern "C" DLLEXPORT const char16_t* StorageGetDefaultEntryAsString();
 extern "C" DLLEXPORT const char16_t* StorageGetEntryAsString(const char16_t* wszName);
@@ -310,6 +332,9 @@ extern "C" DLLEXPORT void set_ReAuthenticateBeforeTokenExpires(bool bValue);
 // ---
 extern "C" DLLEXPORT bool get_UseDatabase();
 extern "C" DLLEXPORT void set_UseDatabase(bool bValue);
+// ---
+extern "C" DLLEXPORT const char16_t* get_AppConfigAuthMechanism();
+extern "C" DLLEXPORT void set_AppConfigAuthMechanism(const char16_t* szdictValue);
 // ---
 extern "C" DLLEXPORT bool ReadConfig();
 // --- C# callback mechanism.

@@ -41,7 +41,7 @@ public class IXRLib : ModuleRules
 				"Slate",
 				"SlateCore",
 				"Projects",
-				"DeveloperSettings"
+				"DeveloperSettings",
 			}
 		);
 

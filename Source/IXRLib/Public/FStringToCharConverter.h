@@ -42,7 +42,31 @@ public:
 		// Return a pointer to the start of the buffer
 		return UTF16Buffer.GetData();
 	}
+	FString ReverseConvert(const char16_t* String)
+	{
+		if (String == nullptr)
+		{
+			return FString(); // Return an empty FString if the input is null
+		}
 
+		// Find the length of the null-terminated UTF-16 string
+		int32 Length = 0;
+		while (String[Length] != '\0')
+		{
+			++Length;
+		}
+
+		// Allocate an FString from the UTF-16 data
+		FString Result;
+		Result.Reserve(Length); // Pre-allocate memory for better performance
+
+		for (int32 i = 0; i < Length; ++i)
+		{
+			Result.AppendChar(static_cast<TCHAR>(String[i])); // Convert each char16_t to TCHAR and append
+		}
+
+		return Result;
+	}
 	// Ensure the buffer persists safely while in use
 	const TArray<char16_t>& GetBuffer() const
 	{

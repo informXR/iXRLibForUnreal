@@ -6,21 +6,14 @@
 #include "FStringToCharConverter.h"
 #include "iXRDeveloperSettings.h"
 
-
-
 char16_t* FStringToChar16Ptr(const FString& UnrealString) {
 	UFStringToCharConverter* Converter = NewObject<UFStringToCharConverter>();
 	return Converter->Convert(UnrealString);
-	
-	// TArray<TCHAR> CharArray = UnrealString.GetCharArray();
-	// char16_t* Char16Ptr = reinterpret_cast<char16_t*>(CharArray.GetData());
-	//
-	// return Char16Ptr;
 }
 
 FString Char16PtrToFString(const char16_t* Char16Ptr) {
-	const TCHAR* TCHARPtr = reinterpret_cast<const TCHAR*>(Char16Ptr);
-	return FString(TCHARPtr);
+	UFStringToCharConverter* Converter = NewObject<UFStringToCharConverter>();
+	return Converter->ReverseConvert(Char16Ptr);
 }
 
 uint32_t IntToUint32(const int UnrealInt) { return static_cast<uint32_t>(UnrealInt); }
@@ -31,16 +24,10 @@ FString UIXRBlueprintLibrary::GetConvertedString(FString String)
 	return Char16PtrToFString(Char16Ptr);
 }
 
-void UIXRBlueprintLibrary::StartIXRLib_BFL()
+void UIXRBlueprintLibrary::SetConfigValues()
 {
-	iXRLibInitStart();
-	// SetServingCSharp(true);
-	char16_t array[] = u"https://libapi.informxr.io/v1/"; // u prefix denotes UTF-16 literals
-	char16_t* ptr = array;
-	
 	SetRestUrl_BFL(*UiXRDeveloperSettings::GetiXRConfig()->restUrl);
-	// set_RestUrl(ptr);
-	
+
 	SetSendRetriesOnFailure_BFL(UiXRDeveloperSettings::GetiXRConfig()->sendRetriesOnFailure);
 	SetSendRetryInterval_BFL(UiXRDeveloperSettings::GetiXRConfig()->sendRetryIntervalSeconds);
 	SetSendNextBatchWait_BFL(UiXRDeveloperSettings::GetiXRConfig()->sendNextBatchWaitSeconds);
@@ -52,37 +39,121 @@ void UIXRBlueprintLibrary::StartIXRLib_BFL()
 	SetPruneSentItemsOlderThan_BFL(UiXRDeveloperSettings::GetiXRConfig()->pruneSentItemsOlderThanHours);
 	SetMaximumCachedItems_BFL(UiXRDeveloperSettings::GetiXRConfig()->maximumCachedItems);
 	SetRetainLocalAfterSent_BFL(UiXRDeveloperSettings::GetiXRConfig()->retainLocalAfterSent);
+}
+
+void UIXRBlueprintLibrary::StartIXRLib_BFL()
+{
+	iXRLibInitStart();
+	SetConfigValues();
+	
 	
 	int StatusIndex = Authenticate_BFL(UiXRDeveloperSettings::GetiXRConfig()->appID, UiXRDeveloperSettings::GetiXRConfig()->orgID,
 			FGuid::NewGuid().ToString(), UiXRDeveloperSettings::GetiXRConfig()->authSecret, 0);
 	UE_LOG(LogTemp, Warning, TEXT("Authenticated ====> %d"), StatusIndex);
 	LogInfo_BFL(TEXT("TestStr"));
-	// LogWarn(TestStr);
-	// LogError(TestStr);
-	// LogWarnSynchronous(TestStr);
 }
 
 void UIXRBlueprintLibrary::iXRLibInitStart_BFL()
 {
+	iXRLibInitStart();
 }
 
 void UIXRBlueprintLibrary::iXRLibInitEnd_BFL()
 {
+	iXRLibInitEnd();
 }
 
 int UIXRBlueprintLibrary::Authenticate_BFL(const FString szAppId, const FString szOrgId, const FString szDeviceId,
 	const FString szAuthSecret, const int ePartner)
 {
-	// char16_t App_array[] = u"2a1a133e-b885-46db-8da0-4bf53e71152a"; // u prefix denotes UTF-16 literals
-	// char16_t* App_ptr = App_array;
-	// char16_t Org_array[] = u"16d6e666-4127-4a79-92bc-3e79ac83697e"; // u prefix denotes UTF-16 literals
-	// char16_t* Org_ptr = Org_array;
-	// char16_t Device_array[] = u"1234567890123456"; // u prefix denotes UTF-16 literals
-	// char16_t* Device_ptr = Device_array;
-	// char16_t Auth_array[] = u"FtmxUeqreQT6nUhuq0venKz1SKjxhIg6KkGtfnE7OmLSAhKl3oVfdIAuJr6LBvO0"; // u prefix denotes UTF-16 literals
-	// char16_t* Auth_ptr = Auth_array;
 	return Authenticate(FStringToChar16Ptr(szAppId), FStringToChar16Ptr(szOrgId),
 		FStringToChar16Ptr(szDeviceId), FStringToChar16Ptr(szAuthSecret), 0);
+}
+
+bool UIXRBlueprintLibrary::KeyboardAuthenticate(FString KeyboardInput)
+{
+	if (KeyboardInput.IsEmpty()) return false;
+	const char16_t* Char16Ptr = get_SessionAuthMechanism();
+	FString InputString = Char16PtrToFString(get_SessionAuthMechanism());
+	TMap<FString, FString> AuthMap /*= StringToMap(InputString)*/;
+    AuthMap.Add("prompt", KeyboardInput);
+    AuthMap.Add("type", "assessmentPin");
+	// FString OriginalPrompt = AuthMap["prompt"];
+	// AuthMap["prompt"] = KeyboardInput;
+
+	FString ConvertedMap = MapToString(AuthMap);
+	SetSessionAuthMechanism_BFL(ConvertedMap);
+	Async(EAsyncExecution::ThreadPool, []()
+	   {
+		   int Result = FinalAuthenticate();
+
+		   Async(EAsyncExecution::TaskGraphMainThread, [Result]()
+		   {
+			   if (Result == 0)
+			   {
+				   UE_LOG(LogTemp, Log, TEXT("Authentication succeeded!"));
+			   		return true;
+			   }
+			   else
+			   {
+				   UE_LOG(LogTemp, Error, TEXT("Authentication failed ---> %d!"), Result);
+			   		return false;
+			   }
+		   });
+	   });
+	return false;
+	// int Result = FinalAuthenticate_BFL();
+	// if (Result ==  0)
+	// {
+	// 	UE_LOG(LogTemp, Warning, TEXT("Authenticate finished"));
+	// }
+	// else
+	// 	UE_LOG(LogTemp, Warning, TEXT("Authenticate failed, ---> %d"), Result);
+
+	
+}
+
+TMap<FString, FString> UIXRBlueprintLibrary::StringToMap(const FString& InputString)
+{
+	TMap<FString, FString> Dict;
+        
+	TArray<FString> Pairs;
+	InputString.ParseIntoArray(Pairs, TEXT(","), true);
+
+	for (const FString& Pair : Pairs)
+	{
+		FString TrimmedPair = Pair.TrimStartAndEnd();
+		if (!TrimmedPair.IsEmpty())
+		{
+			FString Key, Value;
+			if (TrimmedPair.Split(TEXT("="), &Key, &Value))
+				Dict.Add(Key, Value);
+			else
+				Dict.Add(TrimmedPair, TEXT(""));
+		}
+	}
+	return Dict;
+}
+
+FString UIXRBlueprintLibrary::MapToString(TMap<FString, FString> InputMap)
+{
+	FString Result;
+
+	for (const TPair<FString, FString>& Pair : InputMap)
+	{
+		if (!Result.IsEmpty())
+		{
+			Result += TEXT(",");
+		}
+		Result += Pair.Key + TEXT("=") + Pair.Value;
+	}
+
+	return Result;
+}
+
+int UIXRBlueprintLibrary::FinalAuthenticate_BFL()
+{
+	return FinalAuthenticate();
 }
 
 int UIXRBlueprintLibrary::ReAuthenticate_BFL(const bool bObtainAuthSecret)
@@ -165,8 +236,94 @@ int UIXRBlueprintLibrary::Event_BFL(const FString szMessage, const FString szdic
 	return Event(FStringToChar16Ptr(szMessage), FStringToChar16Ptr(szdictMeta));
 }
 
+int UIXRBlueprintLibrary::EventAssessmentStart_BFL(const FString szAssessmentName, const FString szdictMeta)
+{
+	return EventAssessmentStart(FStringToChar16Ptr(szAssessmentName), FStringToChar16Ptr(szdictMeta));
+}
+
+int UIXRBlueprintLibrary::EventAssessmentComplete_BFL(const FString szAssessmentName, const FString szScore,
+	const int eResultOptions, const FString szdictMeta)
+{
+	return EventAssessmentComplete(FStringToChar16Ptr(szAssessmentName), FStringToChar16Ptr(szScore), eResultOptions, FStringToChar16Ptr(szdictMeta));
+}
+
+int UIXRBlueprintLibrary::EventObjectiveStart_BFL(const FString szObjectiveName, const FString szdictMeta)
+{
+	return EventObjectiveStart(FStringToChar16Ptr(szObjectiveName), FStringToChar16Ptr(szdictMeta));
+}
+
+int UIXRBlueprintLibrary::EventObjectiveComplete_BFL(const FString szObjectiveName, const FString szScore,
+	const int eResultOptions, const FString szdictMeta)
+{
+	return EventObjectiveComplete(FStringToChar16Ptr(szObjectiveName), FStringToChar16Ptr(szScore), eResultOptions, FStringToChar16Ptr(szdictMeta));
+}
+
+int UIXRBlueprintLibrary::EventInteractionStart_BFL(const FString szInteractionName, const FString szdictMeta)
+{
+	return EventInteractionStart(FStringToChar16Ptr(szInteractionName), FStringToChar16Ptr(szdictMeta));
+}
+
+int UIXRBlueprintLibrary::EventInteractionComplete_BFL(const FString szInteractionName, const FString szResult,
+	const FString szResultDetails, int eInteractionType, const FString szdictMeta)
+{
+	return EventInteractionComplete(FStringToChar16Ptr(szInteractionName),
+		FStringToChar16Ptr(szResult), FStringToChar16Ptr(szResultDetails),
+		eInteractionType, FStringToChar16Ptr(szdictMeta));
+}
+
+int UIXRBlueprintLibrary::EventLevelStart_BFL(const FString szLevelName, const FString szdictMeta)
+{
+	return EventLevelStart(FStringToChar16Ptr(szLevelName), FStringToChar16Ptr(szdictMeta));
+}
+
+int UIXRBlueprintLibrary::EventLevelComplete_BFL(const FString szLevelName, const FString szScore,
+	const FString szdictMeta)
+{
+	return  EventLevelComplete(FStringToChar16Ptr(szLevelName), FStringToChar16Ptr(szScore), FStringToChar16Ptr(szdictMeta));
+}
+
+const FString UIXRBlueprintLibrary::GetDataPath_BFL()
+{
+	return Char16PtrToFString(get_DataPath());
+}
+
+void UIXRBlueprintLibrary::SetDataPath_BFL(const FString szDataPath)
+{
+	set_DataPath(FStringToChar16Ptr(szDataPath));
+}
+
+const FString UIXRBlueprintLibrary::GetUserId_BFL()
+{
+	return Char16PtrToFString(get_UserId());
+}
+
+void UIXRBlueprintLibrary::SetUserId_BFL(const FString szUserId)
+{
+	set_UserId(FStringToChar16Ptr(szUserId));
+}
+
+const FString UIXRBlueprintLibrary::GetSessionAuthMechanism_BFL()
+{
+	return Char16PtrToFString(get_SessionAuthMechanism());
+}
+
+void UIXRBlueprintLibrary::SetSessionAuthMechanism_BFL(const FString szdictValue)
+{
+	set_SessionAuthMechanism(FStringToChar16Ptr(szdictValue));
+}
+
+const FString UIXRBlueprintLibrary::GetAppConfigAuthMechanism_BFL()
+{
+	return Char16PtrToFString(get_AppConfigAuthMechanism());
+}
+
+void UIXRBlueprintLibrary::SetAppConfigAuthMechanism_BFL(const FString szdictValue)
+{
+	set_AppConfigAuthMechanism(FStringToChar16Ptr(szdictValue));
+}
+
 int UIXRBlueprintLibrary::AddAIProxySynchronous_BFL(const FString szPrompt, const FString szPastMessages,
-	const FString szLMMProvider)
+                                                    const FString szLMMProvider)
 {
 	return AddAIProxySynchronous(FStringToChar16Ptr(szPrompt), FStringToChar16Ptr(szPastMessages), FStringToChar16Ptr(szLMMProvider));
 }
@@ -383,6 +540,7 @@ int UIXRBlueprintLibrary::GetSendRetriesOnFailure_BFL()
 void UIXRBlueprintLibrary::SetSendRetriesOnFailure_BFL(int nValue)
 {
 	set_SendRetriesOnFailure(nValue);
+	
 }
 
 double UIXRBlueprintLibrary::GetSendRetryInterval_BFL()

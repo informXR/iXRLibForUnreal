@@ -25,7 +25,8 @@ public:
 	
 	UFUNCTION(BlueprintCallable)
 	static FString GetConvertedString(FString String);
-	
+	static void SetConfigValues();
+
 	UFUNCTION(BlueprintCallable)
 	static void StartIXRLib_BFL();
 	
@@ -37,6 +38,12 @@ public:
 	
 	UFUNCTION(BlueprintCallable, Category = "iXRLib")
 	static int Authenticate_BFL(const FString szAppId, const FString szOrgId, const FString szDeviceId, const FString szAuthSecret, const int ePartner);
+	
+	UFUNCTION(BlueprintCallable, Category = "iXRLib")
+	static int FinalAuthenticate_BFL();
+
+	UFUNCTION(BlueprintCallable, Category = "iXRLib")
+	static bool KeyboardAuthenticate(FString KeyboardInput);	
 	
 	UFUNCTION(BlueprintCallable, Category = "iXRLib")
 	static int ReAuthenticate_BFL(const bool bObtainAuthSecret);
@@ -87,6 +94,30 @@ public:
 	static int Event_BFL(const FString szMessage, const FString szdictMeta);
 	
 	UFUNCTION(BlueprintCallable, Category = "iXRLib")
+	static int EventAssessmentStart_BFL(const FString szAssessmentName, const FString szdictMeta);
+
+	UFUNCTION(BlueprintCallable, Category = "iXRLib")
+	static int EventAssessmentComplete_BFL(const FString szAssessmentName, const FString szScore, const int eResultOptions, const FString szdictMeta);
+
+	UFUNCTION(BlueprintCallable, Category = "iXRLib")
+	static int EventObjectiveStart_BFL(const FString szObjectiveName, const FString szdictMeta);
+
+	UFUNCTION(BlueprintCallable, Category = "iXRLib")
+	static int EventObjectiveComplete_BFL(const FString szObjectiveName, const FString szScore, const int eResultOptions, const FString szdictMeta);
+
+	UFUNCTION(BlueprintCallable, Category = "iXRLib")
+	static int EventInteractionStart_BFL(const FString szInteractionName, const FString szdictMeta);
+
+	UFUNCTION(BlueprintCallable, Category = "iXRLib")
+	static int EventInteractionComplete_BFL(const FString szInteractionName, const FString szResult, const FString szResultDetails, int eInteractionType, const FString szdictMeta);
+
+	UFUNCTION(BlueprintCallable, Category = "iXRLib")
+	static int EventLevelStart_BFL(const FString szLevelName, const FString szdictMeta);
+
+	UFUNCTION(BlueprintCallable, Category = "iXRLib")
+	static int EventLevelComplete_BFL(const FString szLevelName, const FString szScore, const FString szdictMeta);
+	
+	UFUNCTION(BlueprintCallable, Category = "iXRLib")
 	static int AddAIProxySynchronous_BFL(const FString szPrompt, const FString szPastMessages, const FString szLMMProvider);
 	
 	UFUNCTION(BlueprintCallable, Category = "iXRLib")
@@ -124,12 +155,6 @@ public:
 	
 	UFUNCTION(BlueprintCallable, Category = "iXRLib")
 	static void SetOrgID_BFL(const FString szOrgID);
-	
-	// UFUNCTION(BlueprintCallable, Category = "iXRLib")
-	// CSharpDateTime GetTokenExpiration_BFL();
-	//
-	// UFUNCTION(BlueprintCallable, Category = "iXRLib")
-	// void SetTokenExpiration_BFL(const CSharpDateTime dtTokenExpiration);
 
 	UFUNCTION(BlueprintCallable, Category = "iXRLib")
 	static bool TokenExpirationImminent_BFL();
@@ -145,12 +170,21 @@ public:
 	
 	UFUNCTION(BlueprintCallable, Category = "iXRLib")
 	static void SetOsVersion_BFL(const FString szOsVersion);
+
+	const FString GetDataPath_BFL();
+	static void SetDataPath_BFL(const FString szDataPath);
 	
 	UFUNCTION(BlueprintCallable, Category = "iXRLib")
 	static FString GetIpAddress_BFL();
 	
 	UFUNCTION(BlueprintCallable, Category = "iXRLib")
 	static void SetIpAddress_BFL(const FString szIpAddress);
+
+	UFUNCTION(BlueprintCallable, Category = "iXRLib")
+	static const FString GetUserId_BFL();
+	
+	UFUNCTION(BlueprintCallable, Category = "iXRLib")
+	static void SetUserId_BFL(const FString szUserId);
 	
 	UFUNCTION(BlueprintCallable, Category = "iXRLib")
 	static FString GetXrdmVersion_BFL();
@@ -187,6 +221,18 @@ public:
 	
 	UFUNCTION(BlueprintCallable, Category = "iXRLib")
 	static void SetGeoLocation_BFL(const FString szdictGeoLocation);
+	
+	UFUNCTION(BlueprintCallable, Category = "iXRLib")
+	static const FString GetSessionAuthMechanism_BFL();
+
+	UFUNCTION(BlueprintCallable, Category = "iXRLib")
+	static void SetSessionAuthMechanism_BFL(const FString szdictValue);
+
+	UFUNCTION(BlueprintCallable, Category = "iXRLib")
+	static const FString GetAppConfigAuthMechanism_BFL();
+
+	UFUNCTION(BlueprintCallable, Category = "iXRLib")
+	static void SetAppConfigAuthMechanism_BFL(const FString szdictValue);
 	
 	UFUNCTION(BlueprintCallable, Category = "iXRLib")
 	static FString StorageGetDefaultEntryAsString_BFL();
@@ -325,5 +371,9 @@ public:
 	
 	UFUNCTION(BlueprintCallable, Category = "iXRLib")
 	static FString TestGetAuthSecretCallback_BFL();
-	
+
+	static TMap<FString, FString> StringToMap(const FString& InputString);
+
+	static FString MapToString(TMap<FString, FString> InputMap);
 };
+
