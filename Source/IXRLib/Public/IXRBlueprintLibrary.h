@@ -13,6 +13,8 @@
 #include "Kismet/BlueprintFunctionLibrary.h"
 #include "IXRBlueprintLibrary.generated.h"
 
+DECLARE_DYNAMIC_DELEGATE_OneParam(FOnReceivedResponseSignature, int, ResponseCode);
+
 /**
  * 
  */
@@ -43,7 +45,7 @@ public:
 	static int FinalAuthenticate_BFL();
 
 	UFUNCTION(BlueprintCallable, Category = "iXRLib")
-	static bool KeyboardAuthenticate(FString KeyboardInput);	
+	static void KeyboardAuthenticate(FString KeyboardInput, const FOnReceivedResponseSignature& OnReceivedResponseDelegate);	
 	
 	UFUNCTION(BlueprintCallable, Category = "iXRLib")
 	static int ReAuthenticate_BFL(const bool bObtainAuthSecret);
@@ -171,8 +173,8 @@ public:
 	UFUNCTION(BlueprintCallable, Category = "iXRLib")
 	static void SetOsVersion_BFL(const FString szOsVersion);
 
-	const FString GetDataPath_BFL();
-	static void SetDataPath_BFL(const FString szDataPath);
+	// const FString GetDataPath_BFL();
+	// static void SetDataPath_BFL(const FString szDataPath);
 	
 	UFUNCTION(BlueprintCallable, Category = "iXRLib")
 	static FString GetIpAddress_BFL();
@@ -369,8 +371,8 @@ public:
 	UFUNCTION(BlueprintCallable, Category = "iXRLib")
 	static int iXRLibAnalyticsTestsInterop_BFL(const FString bstrCommandLine);
 	
-	UFUNCTION(BlueprintCallable, Category = "iXRLib")
-	static FString TestGetAuthSecretCallback_BFL();
+	// UFUNCTION(BlueprintCallable, Category = "iXRLib")
+	// static FString TestGetAuthSecretCallback_BFL();
 
 	static TMap<FString, FString> StringToMap(const FString& InputString);
 

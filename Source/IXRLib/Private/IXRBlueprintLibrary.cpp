@@ -70,47 +70,41 @@ int UIXRBlueprintLibrary::Authenticate_BFL(const FString szAppId, const FString 
 		FStringToChar16Ptr(szDeviceId), FStringToChar16Ptr(szAuthSecret), 0);
 }
 
-bool UIXRBlueprintLibrary::KeyboardAuthenticate(FString KeyboardInput)
+void UIXRBlueprintLibrary::KeyboardAuthenticate(FString KeyboardInput, const FOnReceivedResponseSignature& OnReceivedResponseDelegate)
 {
-	if (KeyboardInput.IsEmpty()) return false;
+	if (KeyboardInput.IsEmpty()) return;
 	const char16_t* Char16Ptr = get_SessionAuthMechanism();
 	FString InputString = Char16PtrToFString(get_SessionAuthMechanism());
-	TMap<FString, FString> AuthMap /*= StringToMap(InputString)*/;
+	TMap<FString, FString> AuthMap;
     AuthMap.Add("prompt", KeyboardInput);
-    AuthMap.Add("type", "assessmentPin");
-	// FString OriginalPrompt = AuthMap["prompt"];
-	// AuthMap["prompt"] = KeyboardInput;
-
+    
+    if (KeyboardInput.Contains("@"))
+    	AuthMap.Add("type", "email");
+	else if (KeyboardInput.IsNumeric())
+		AuthMap.Add("type", "assessmentPin");
+    
+	
 	FString ConvertedMap = MapToString(AuthMap);
 	SetSessionAuthMechanism_BFL(ConvertedMap);
-	Async(EAsyncExecution::ThreadPool, []()
+	Async(EAsyncExecution::ThreadPool, [OnReceivedResponseDelegate]()
 	   {
 		   int Result = FinalAuthenticate();
 
-		   Async(EAsyncExecution::TaskGraphMainThread, [Result]()
+		   Async(EAsyncExecution::TaskGraphMainThread, [Result, OnReceivedResponseDelegate]()
 		   {
+		   		OnReceivedResponseDelegate.ExecuteIfBound(Result);
 			   if (Result == 0)
 			   {
 				   UE_LOG(LogTemp, Log, TEXT("Authentication succeeded!"));
-			   		return true;
+			   		// TODO add callback
 			   }
 			   else
 			   {
 				   UE_LOG(LogTemp, Error, TEXT("Authentication failed ---> %d!"), Result);
-			   		return false;
+			   		// TODO add callback
 			   }
 		   });
 	   });
-	return false;
-	// int Result = FinalAuthenticate_BFL();
-	// if (Result ==  0)
-	// {
-	// 	UE_LOG(LogTemp, Warning, TEXT("Authenticate finished"));
-	// }
-	// else
-	// 	UE_LOG(LogTemp, Warning, TEXT("Authenticate failed, ---> %d"), Result);
-
-	
 }
 
 TMap<FString, FString> UIXRBlueprintLibrary::StringToMap(const FString& InputString)
@@ -282,15 +276,15 @@ int UIXRBlueprintLibrary::EventLevelComplete_BFL(const FString szLevelName, cons
 	return  EventLevelComplete(FStringToChar16Ptr(szLevelName), FStringToChar16Ptr(szScore), FStringToChar16Ptr(szdictMeta));
 }
 
-const FString UIXRBlueprintLibrary::GetDataPath_BFL()
-{
-	return Char16PtrToFString(get_DataPath());
-}
-
-void UIXRBlueprintLibrary::SetDataPath_BFL(const FString szDataPath)
-{
-	set_DataPath(FStringToChar16Ptr(szDataPath));
-}
+// const FString UIXRBlueprintLibrary::GetDataPath_BFL()
+// {
+// 	return Char16PtrToFString(get_DataPath());
+// }
+//
+// void UIXRBlueprintLibrary::SetDataPath_BFL(const FString szDataPath)
+// {
+// 	set_DataPath(FStringToChar16Ptr(szDataPath));
+// }
 
 const FString UIXRBlueprintLibrary::GetUserId_BFL()
 {
@@ -721,7 +715,7 @@ int UIXRBlueprintLibrary::iXRLibAnalyticsTestsInterop_BFL(const FString bstrComm
 	return iXRLibAnalyticsTestsInterop(FStringToChar16Ptr(bstrCommandLine));
 }
 
-FString UIXRBlueprintLibrary::TestGetAuthSecretCallback_BFL()
-{
-	return Char16PtrToFString(TestGetAuthSecretCallback());
-}
+// FString UIXRBlueprintLibrary::TestGetAuthSecretCallback_BFL()
+// {
+// 	return Char16PtrToFString(TestGetAuthSecretCallback());
+// }
