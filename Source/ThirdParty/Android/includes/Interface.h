@@ -194,16 +194,16 @@ extern "C" DLLEXPORT uint32_t ForceSendUnsentSynchronous();
 extern "C" DLLEXPORT void CaptureTimeStamp();
 extern "C" DLLEXPORT void UnCaptureTimeStamp();
 // ---
-extern "C" DLLEXPORT uint32_t LogDebugSynchronous(const char16_t* szText);
-extern "C" DLLEXPORT uint32_t LogDebug(const char16_t* szText);
-extern "C" DLLEXPORT uint32_t LogInfoSynchronous(const char16_t* szText);
-extern "C" DLLEXPORT uint32_t LogInfo(const char16_t* szText);
-extern "C" DLLEXPORT uint32_t LogWarnSynchronous(const char16_t* szText);
-extern "C" DLLEXPORT uint32_t LogWarn(const char16_t* szText);
-extern "C" DLLEXPORT uint32_t LogErrorSynchronous(const char16_t* szText);
-extern "C" DLLEXPORT uint32_t LogError(const char16_t* szText);
-extern "C" DLLEXPORT uint32_t LogCriticalSynchronous(const char16_t* szText);
-extern "C" DLLEXPORT uint32_t LogCritical(const char16_t* szText);
+extern "C" DLLEXPORT uint32_t LogDebugSynchronous(const char16_t* szText, const char16_t* szdictMeta);
+extern "C" DLLEXPORT uint32_t LogDebug(const char16_t* szText, const char16_t* szdictMeta);
+extern "C" DLLEXPORT uint32_t LogInfoSynchronous(const char16_t* szText, const char16_t* szdictMeta);
+extern "C" DLLEXPORT uint32_t LogInfo(const char16_t* szText, const char16_t* szdictMeta);
+extern "C" DLLEXPORT uint32_t LogWarnSynchronous(const char16_t* szText, const char16_t* szdictMeta);
+extern "C" DLLEXPORT uint32_t LogWarn(const char16_t* szText, const char16_t* szdictMeta);
+extern "C" DLLEXPORT uint32_t LogErrorSynchronous(const char16_t* szText, const char16_t* szdictMeta);
+extern "C" DLLEXPORT uint32_t LogError(const char16_t* szText, const char16_t* szdictMeta);
+extern "C" DLLEXPORT uint32_t LogCriticalSynchronous(const char16_t* szText, const char16_t* szdictMeta);
+extern "C" DLLEXPORT uint32_t LogCritical(const char16_t* szText, const char16_t* szdictMeta);
 // ---
 extern "C" DLLEXPORT uint32_t EventSynchronous(const char16_t* szMessage, const char16_t* szdictMeta);
 extern "C" DLLEXPORT uint32_t Event(const char16_t* szMessage, const char16_t* szdictMeta);
@@ -223,8 +223,8 @@ extern "C" DLLEXPORT uint32_t EventLevelComplete(const char16_t* szLevelName, co
 extern "C" DLLEXPORT uint32_t AddAIProxySynchronous(const char16_t* szPrompt, const char16_t* szPastMessages, const char16_t* szLMMProvider);
 extern "C" DLLEXPORT uint32_t AddAIProxy(const char16_t* szPrompt, const char16_t* szPastMessages, const char16_t* szLMMProvider);
 // ---
-extern "C" DLLEXPORT uint32_t AddTelemetryEntrySynchronous(const char16_t* szName, const char16_t* szdictData);
-extern "C" DLLEXPORT uint32_t AddTelemetryEntry(const char16_t* szName, const char16_t* szdictData);
+extern "C" DLLEXPORT uint32_t AddTelemetryEntrySynchronous(const char16_t* szName, const char16_t* szdictMeta);
+extern "C" DLLEXPORT uint32_t AddTelemetryEntry(const char16_t* szName, const char16_t* szdictMeta);
 // ---
 extern "C" DLLEXPORT bool PlatformIsWindows();
 // --- Authentication fields.
