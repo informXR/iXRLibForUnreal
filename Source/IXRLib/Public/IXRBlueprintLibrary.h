@@ -51,7 +51,7 @@ public:
 	static int ReAuthenticate_BFL(const bool bObtainAuthSecret);
 	
 	UFUNCTION(BlueprintCallable, Category = "iXRLib")
-	static int ForceSendUnsentSynchronous_BFL();
+	static int ForceSendUnsent_BFL();
 	
 	UFUNCTION(BlueprintCallable, Category = "iXRLib")
 	static void CaptureTimeStamp_BFL();
@@ -60,40 +60,40 @@ public:
 	static void UnCaptureTimeStamp_BFL();
 	
 	UFUNCTION(BlueprintCallable, Category = "iXRLib")
-	static int LogDebugSynchronous_BFL(const FString szText, const FString szdictMeta);
-	
-	UFUNCTION(BlueprintCallable, Category = "iXRLib")
 	static int LogDebug_BFL(const FString szText, const FString szdictMeta);
 	
 	UFUNCTION(BlueprintCallable, Category = "iXRLib")
-	static int LogInfoSynchronous_BFL(const FString szText, const FString szdictMeta);
+	static int LogDebugDeferred_BFL(const FString szText, const FString szdictMeta);
 	
 	UFUNCTION(BlueprintCallable, Category = "iXRLib")
 	static int LogInfo_BFL(const FString szText, const FString szdictMeta);
 	
 	UFUNCTION(BlueprintCallable, Category = "iXRLib")
-	static int LogWarnSynchronous_BFL(const FString szText, const FString szdictMeta);
+	static int LogInfoDeferred_BFL(const FString szText, const FString szdictMeta);
 	
 	UFUNCTION(BlueprintCallable, Category = "iXRLib")
 	static int LogWarn_BFL(const FString szText, const FString szdictMeta);
 	
 	UFUNCTION(BlueprintCallable, Category = "iXRLib")
-	static int LogErrorSynchronous_BFL(const FString szText, const FString szdictMeta);
+	static int LogWarnDeferred_BFL(const FString szText, const FString szdictMeta);
 	
 	UFUNCTION(BlueprintCallable, Category = "iXRLib")
 	static int LogError_BFL(const FString szText, const FString szdictMeta);
 	
 	UFUNCTION(BlueprintCallable, Category = "iXRLib")
-	static int LogCriticalSynchronous_BFL(const FString szText, const FString szdictMeta);
+	static int LogErrorDeferred_BFL(const FString szText, const FString szdictMeta);
 	
 	UFUNCTION(BlueprintCallable, Category = "iXRLib")
 	static int LogCritical_BFL(const FString szText, const FString szdictMeta);
 	
 	UFUNCTION(BlueprintCallable, Category = "iXRLib")
-	static int EventSynchronous_BFL(const FString szMessage, const FString szdictMeta);
+	static int LogCriticalDeferred_BFL(const FString szText, const FString szdictMeta);
 	
 	UFUNCTION(BlueprintCallable, Category = "iXRLib")
 	static int Event_BFL(const FString szMessage, const FString szdictMeta);
+	
+	UFUNCTION(BlueprintCallable, Category = "iXRLib")
+	static int EventDeferred_BFL(const FString szMessage, const FString szdictMeta);
 	
 	UFUNCTION(BlueprintCallable, Category = "iXRLib")
 	static int EventAssessmentStart_BFL(const FString szAssessmentName, const FString szdictMeta);
@@ -120,16 +120,16 @@ public:
 	static int EventLevelComplete_BFL(const FString szLevelName, const FString szScore, const FString szdictMeta);
 	
 	UFUNCTION(BlueprintCallable, Category = "iXRLib")
-	static int AddAIProxySynchronous_BFL(const FString szPrompt, const FString szPastMessages, const FString szLMMProvider);
-	
-	UFUNCTION(BlueprintCallable, Category = "iXRLib")
 	static int AddAIProxy_BFL(const FString szPrompt, const FString szPastMessages, const FString szLMMProvider);
 	
 	UFUNCTION(BlueprintCallable, Category = "iXRLib")
-	static int AddTelemetryEntrySynchronous_BFL(const FString szName, const FString szdictMeta);
+	static int AddAIProxyDeferred_BFL(const FString szPrompt, const FString szPastMessages, const FString szLMMProvider);
 	
 	UFUNCTION(BlueprintCallable, Category = "iXRLib")
 	static int AddTelemetryEntry_BFL(const FString szName, const FString szdictMeta);
+	
+	UFUNCTION(BlueprintCallable, Category = "iXRLib")
+	static int AddTelemetryEntryDeferred_BFL(const FString szName, const FString szdictMeta);
 	
 	UFUNCTION(BlueprintCallable, Category = "iXRLib")
 	static bool PlatformIsWindows_BFL();

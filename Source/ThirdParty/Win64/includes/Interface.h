@@ -189,24 +189,24 @@ extern "C" DLLEXPORT void iXRLibInitEnd();
 extern "C" DLLEXPORT uint32_t Authenticate(const char16_t* szAppId, const char16_t* szOrgId, const char16_t* szDeviceId, const char16_t* szAuthSecret, const uint32_t ePartner);
 extern "C" DLLEXPORT uint32_t FinalAuthenticate();
 extern "C" DLLEXPORT uint32_t ReAuthenticate(const bool bObtainAuthSecret);
-extern "C" DLLEXPORT uint32_t ForceSendUnsentSynchronous();
+extern "C" DLLEXPORT uint32_t ForceSendUnsent();
 // ---
 extern "C" DLLEXPORT void CaptureTimeStamp();
 extern "C" DLLEXPORT void UnCaptureTimeStamp();
 // ---
-extern "C" DLLEXPORT uint32_t LogDebugSynchronous(const char16_t* szText, const char16_t* szdictMeta);
 extern "C" DLLEXPORT uint32_t LogDebug(const char16_t* szText, const char16_t* szdictMeta);
-extern "C" DLLEXPORT uint32_t LogInfoSynchronous(const char16_t* szText, const char16_t* szdictMeta);
+extern "C" DLLEXPORT uint32_t LogDebugDeferred(const char16_t* szText, const char16_t* szdictMeta);
 extern "C" DLLEXPORT uint32_t LogInfo(const char16_t* szText, const char16_t* szdictMeta);
-extern "C" DLLEXPORT uint32_t LogWarnSynchronous(const char16_t* szText, const char16_t* szdictMeta);
+extern "C" DLLEXPORT uint32_t LogInfoDeferred(const char16_t* szText, const char16_t* szdictMeta);
 extern "C" DLLEXPORT uint32_t LogWarn(const char16_t* szText, const char16_t* szdictMeta);
-extern "C" DLLEXPORT uint32_t LogErrorSynchronous(const char16_t* szText, const char16_t* szdictMeta);
+extern "C" DLLEXPORT uint32_t LogWarnDeferred(const char16_t* szText, const char16_t* szdictMeta);
 extern "C" DLLEXPORT uint32_t LogError(const char16_t* szText, const char16_t* szdictMeta);
-extern "C" DLLEXPORT uint32_t LogCriticalSynchronous(const char16_t* szText, const char16_t* szdictMeta);
+extern "C" DLLEXPORT uint32_t LogErrorDeferred(const char16_t* szText, const char16_t* szdictMeta);
 extern "C" DLLEXPORT uint32_t LogCritical(const char16_t* szText, const char16_t* szdictMeta);
+extern "C" DLLEXPORT uint32_t LogCriticalDeferred(const char16_t* szText, const char16_t* szdictMeta);
 // ---
-extern "C" DLLEXPORT uint32_t EventSynchronous(const char16_t* szMessage, const char16_t* szdictMeta);
 extern "C" DLLEXPORT uint32_t Event(const char16_t* szMessage, const char16_t* szdictMeta);
+extern "C" DLLEXPORT uint32_t EventDeferred(const char16_t* szMessage, const char16_t* szdictMeta);
 // --- Convenient wrappers for particular forms of events.
 extern "C" DLLEXPORT uint32_t EventAssessmentStart(const char16_t* szAssessmentName, const char16_t* szdictMeta);
 extern "C" DLLEXPORT uint32_t EventAssessmentComplete(const char16_t* szAssessmentName, const char16_t* szScore, const uint32_t eResultOptions, const char16_t* szdictMeta);
@@ -220,11 +220,11 @@ extern "C" DLLEXPORT uint32_t EventInteractionComplete(const char16_t* szInterac
 extern "C" DLLEXPORT uint32_t EventLevelStart(const char16_t* szLevelName, const char16_t* szdictMeta);
 extern "C" DLLEXPORT uint32_t EventLevelComplete(const char16_t* szLevelName, const char16_t* szScore, const char16_t* szdictMeta);
 // ---
-extern "C" DLLEXPORT uint32_t AddAIProxySynchronous(const char16_t* szPrompt, const char16_t* szPastMessages, const char16_t* szLMMProvider);
 extern "C" DLLEXPORT uint32_t AddAIProxy(const char16_t* szPrompt, const char16_t* szPastMessages, const char16_t* szLMMProvider);
+extern "C" DLLEXPORT uint32_t AddAIProxyDeferred(const char16_t* szPrompt, const char16_t* szPastMessages, const char16_t* szLMMProvider);
 // ---
-extern "C" DLLEXPORT uint32_t AddTelemetryEntrySynchronous(const char16_t* szName, const char16_t* szdictMeta);
 extern "C" DLLEXPORT uint32_t AddTelemetryEntry(const char16_t* szName, const char16_t* szdictMeta);
+extern "C" DLLEXPORT uint32_t AddTelemetryEntryDeferred(const char16_t* szName, const char16_t* szdictMeta);
 // ---
 extern "C" DLLEXPORT bool PlatformIsWindows();
 // --- Authentication fields.
