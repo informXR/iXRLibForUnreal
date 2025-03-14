@@ -155,9 +155,9 @@ int UIXRBlueprintLibrary::ReAuthenticate_BFL(const bool bObtainAuthSecret)
 	return ReAuthenticate(bObtainAuthSecret);
 }
 
-int UIXRBlueprintLibrary::ForceSendUnsentSynchronous_BFL()
+int UIXRBlueprintLibrary::ForceSendUnsent_BFL()
 {
-	return ForceSendUnsentSynchronous();
+	return ForceSendUnsent();
 }
 
 void UIXRBlueprintLibrary::CaptureTimeStamp_BFL()
@@ -170,19 +170,14 @@ void UIXRBlueprintLibrary::UnCaptureTimeStamp_BFL()
 	UnCaptureTimeStamp();
 }
 
-int UIXRBlueprintLibrary::LogDebugSynchronous_BFL(const FString szText, const FString szdictMeta)
-{
-	return LogDebugSynchronous(FStringToChar16Ptr(szText), FStringToChar16Ptr(szdictMeta));
-}
-
 int UIXRBlueprintLibrary::LogDebug_BFL(const FString szText, const FString szdictMeta)
 {
 	return LogDebug(FStringToChar16Ptr(szText), FStringToChar16Ptr(szdictMeta));
 }
 
-int UIXRBlueprintLibrary::LogInfoSynchronous_BFL(const FString szText, const FString szdictMeta)
+int UIXRBlueprintLibrary::LogDebugDeferred_BFL(const FString szText, const FString szdictMeta)
 {
-	return LogInfo(FStringToChar16Ptr(szText), FStringToChar16Ptr(szdictMeta));
+	return LogDebugDeferred(FStringToChar16Ptr(szText), FStringToChar16Ptr(szdictMeta));
 }
 
 int UIXRBlueprintLibrary::LogInfo_BFL(const FString szText, const FString szdictMeta)
@@ -190,9 +185,9 @@ int UIXRBlueprintLibrary::LogInfo_BFL(const FString szText, const FString szdict
 	return LogInfo(FStringToChar16Ptr(szText), FStringToChar16Ptr(szdictMeta));
 }
 
-int UIXRBlueprintLibrary::LogWarnSynchronous_BFL(const FString szText, const FString szdictMeta)
+int UIXRBlueprintLibrary::LogInfoDeferred_BFL(const FString szText, const FString szdictMeta)
 {
-	return LogWarnSynchronous(FStringToChar16Ptr(szText), FStringToChar16Ptr(szdictMeta));
+	return LogInfoDeferred(FStringToChar16Ptr(szText), FStringToChar16Ptr(szdictMeta));
 }
 
 int UIXRBlueprintLibrary::LogWarn_BFL(const FString szText, const FString szdictMeta)
@@ -200,9 +195,9 @@ int UIXRBlueprintLibrary::LogWarn_BFL(const FString szText, const FString szdict
 	return LogWarn(FStringToChar16Ptr(szText), FStringToChar16Ptr(szdictMeta));
 }
 
-int UIXRBlueprintLibrary::LogErrorSynchronous_BFL(const FString szText, const FString szdictMeta)
+int UIXRBlueprintLibrary::LogWarnDeferred_BFL(const FString szText, const FString szdictMeta)
 {
-	return LogError(FStringToChar16Ptr(szText), FStringToChar16Ptr(szdictMeta));
+	return LogWarnDeferred(FStringToChar16Ptr(szText), FStringToChar16Ptr(szdictMeta));
 }
 
 int UIXRBlueprintLibrary::LogError_BFL(const FString szText, const FString szdictMeta)
@@ -210,9 +205,9 @@ int UIXRBlueprintLibrary::LogError_BFL(const FString szText, const FString szdic
 	return LogError(FStringToChar16Ptr(szText), FStringToChar16Ptr(szdictMeta));
 }
 
-int UIXRBlueprintLibrary::LogCriticalSynchronous_BFL(const FString szText, const FString szdictMeta)
+int UIXRBlueprintLibrary::LogErrorDeferred_BFL(const FString szText, const FString szdictMeta)
 {
-	return LogCritical(FStringToChar16Ptr(szText), FStringToChar16Ptr(szdictMeta));
+	return LogErrorDeferred(FStringToChar16Ptr(szText), FStringToChar16Ptr(szdictMeta));
 }
 
 int UIXRBlueprintLibrary::LogCritical_BFL(const FString szText, const FString szdictMeta)
@@ -220,16 +215,21 @@ int UIXRBlueprintLibrary::LogCritical_BFL(const FString szText, const FString sz
 	return LogCritical(FStringToChar16Ptr(szText), FStringToChar16Ptr(szdictMeta));
 }
 
-// ---
-
-int UIXRBlueprintLibrary::EventSynchronous_BFL(const FString szMessage, const FString szdictMeta)
+int UIXRBlueprintLibrary::LogCriticalDeferred_BFL(const FString szText, const FString szdictMeta)
 {
-	return EventSynchronous(FStringToChar16Ptr(szMessage), FStringToChar16Ptr(szdictMeta));
+	return LogCriticalDeferred(FStringToChar16Ptr(szText), FStringToChar16Ptr(szdictMeta));
 }
+
+// ---
 
 int UIXRBlueprintLibrary::Event_BFL(const FString szMessage, const FString szdictMeta)
 {
 	return Event(FStringToChar16Ptr(szMessage), FStringToChar16Ptr(szdictMeta));
+}
+
+int UIXRBlueprintLibrary::EventDeferred_BFL(const FString szMessage, const FString szdictMeta)
+{
+	return EventDeferred(FStringToChar16Ptr(szMessage), FStringToChar16Ptr(szdictMeta));
 }
 
 int UIXRBlueprintLibrary::EventAssessmentStart_BFL(const FString szAssessmentName, const FString szdictMeta)
@@ -318,26 +318,26 @@ void UIXRBlueprintLibrary::SetAppConfigAuthMechanism_BFL(const FString szdictVal
 	set_AppConfigAuthMechanism(FStringToChar16Ptr(szdictValue));
 }
 
-int UIXRBlueprintLibrary::AddAIProxySynchronous_BFL(const FString szPrompt, const FString szPastMessages,
-                                                    const FString szLMMProvider)
-{
-	return AddAIProxySynchronous(FStringToChar16Ptr(szPrompt), FStringToChar16Ptr(szPastMessages), FStringToChar16Ptr(szLMMProvider));
-}
-
 int UIXRBlueprintLibrary::AddAIProxy_BFL(const FString szPrompt, const FString szPastMessages,
-	const FString szLMMProvider)
+                                                    const FString szLMMProvider)
 {
 	return AddAIProxy(FStringToChar16Ptr(szPrompt), FStringToChar16Ptr(szPastMessages), FStringToChar16Ptr(szLMMProvider));
 }
 
-int UIXRBlueprintLibrary::AddTelemetryEntrySynchronous_BFL(const FString szName, const FString szdictMeta)
+int UIXRBlueprintLibrary::AddAIProxyDeferred_BFL(const FString szPrompt, const FString szPastMessages,
+	const FString szLMMProvider)
 {
-	return AddTelemetryEntrySynchronous(FStringToChar16Ptr(szName), FStringToChar16Ptr(szdictMeta));
+	return AddAIProxyDeferred(FStringToChar16Ptr(szPrompt), FStringToChar16Ptr(szPastMessages), FStringToChar16Ptr(szLMMProvider));
 }
 
 int UIXRBlueprintLibrary::AddTelemetryEntry_BFL(const FString szName, const FString szdictMeta)
 {
 	return AddTelemetryEntry(FStringToChar16Ptr(szName), FStringToChar16Ptr(szdictMeta));
+}
+
+int UIXRBlueprintLibrary::AddTelemetryEntryDeferred_BFL(const FString szName, const FString szdictMeta)
+{
+	return AddTelemetryEntryDeferred(FStringToChar16Ptr(szName), FStringToChar16Ptr(szdictMeta));
 }
 
 bool UIXRBlueprintLibrary::PlatformIsWindows_BFL()
@@ -681,34 +681,42 @@ void UIXRBlueprintLibrary::SetServingCSharp_BFL(const bool bServingCSharp)
 
 bool UIXRBlueprintLibrary::GetNextDiagnosticString_BFL(FString& pbstrString)
 {
-	char16_t* char16Str = nullptr;
+	char16_t	*char16Str = nullptr;
+	bool		result = GetNextDiagnosticString(&char16Str);
 
-	bool result = GetNextDiagnosticString(&char16Str);
-
-	if (result && char16Str != nullptr) 
+	if (result && char16Str != nullptr)
+	{
 		pbstrString = FString(reinterpret_cast<const TCHAR*>(char16Str));
+	}
 	else
+	{
 		pbstrString = FString();
-
+	}
 	return result;
 
 }
 
 uint8 UIXRBlueprintLibrary::HTTPGet_BFL(const FString bstrUrl, FString& pbstrResponse)
 {
-	char16_t* char16Str = nullptr;
-	auto result = HTTPGet(FStringToChar16Ptr(bstrUrl), &char16Str);
-	if (char16Str != nullptr) 
+	char16_t	*char16Str = nullptr;
+	auto		result = HTTPGet(FStringToChar16Ptr(bstrUrl), &char16Str);
+
+	if (char16Str != nullptr)
+	{
 		pbstrResponse = FString(reinterpret_cast<const TCHAR*>(char16Str));
+	}
 	return 0;
 }
 
 uint8 UIXRBlueprintLibrary::HTTPPost_BFL(const FString bstrUrl, FString& pbstrResponse)
 {
-	char16_t* char16Str = nullptr;
-	auto result = HTTPPost(FStringToChar16Ptr(bstrUrl), &char16Str);
-	if (char16Str != nullptr) 
+	char16_t	*char16Str = nullptr;
+	auto		result = HTTPPost(FStringToChar16Ptr(bstrUrl), &char16Str);
+
+	if (char16Str != nullptr)
+	{
 		pbstrResponse = FString(reinterpret_cast<const TCHAR*>(char16Str));
+	}
 	return 0;
 }
 

@@ -39,4 +39,4 @@ All the wrapped methods are static and have a UFUNCTION(BlueprintCallable) macro
 ![](https://github.com/informXR/iXRLibForUnreal/blob/main/ReadmeImages/blueprint.png?raw=true)
 
 ***C++***  
-UIXRBlueprintLibrary::LogDebugSynchronous\_BFL(MyString)  
+UIXRBlueprintLibrary::LogDebug\_BFL(MyString)  
