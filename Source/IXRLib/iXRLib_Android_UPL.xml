@@ -10,8 +10,8 @@
 	<!-- optional files or directories to copy to Intermediate/Android/APK -->
 	<resourceCopies>
 		<isArch arch="arm64-v8a">
-			<copyFile src="$S(PluginDir)/../ThirdParty/Android/libraries/libiXRLibShared.so"
-					  dst="$S(BuildDir)/libs/arm64-v8a/libiXRLibShared.so" />
+			<copyFile src="$S(PluginDir)/../ThirdParty/Android/libraries/libAbxrLibShared.so"
+					  dst="$S(BuildDir)/libs/arm64-v8a/libAbxrLibShared.so" />
 		</isArch>
 	</resourceCopies>
 
@@ -19,7 +19,7 @@
 	<soLoadLibrary>
 		<if condition="bSupported">
 			<true>
-				<loadLibrary name="libiXRLibShared" failmsg="Failed to load libiXRLibShared library" />
+				<loadLibrary name="libAbxrLibShared" failmsg="Failed to load libAbxrLibShared library" />
 			</true>
 		</if>
 	</soLoadLibrary>

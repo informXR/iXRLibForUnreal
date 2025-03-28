@@ -1,9 +1,9 @@
 ﻿// Fill out your copyright notice in the Description page of Project Settings.
 
 
-#include "iXRDeveloperSettings.h"
+#include "AbxrDeveloperSettings.h"
 
-const UiXRDeveloperSettings* UiXRDeveloperSettings::GetiXRConfig()
+const UAbxrDeveloperSettings* UAbxrDeveloperSettings::GetAbxrConfig()
 {
-	return GetDefault<UiXRDeveloperSettings>();
+	return GetDefault<UAbxrDeveloperSettings>();
 }

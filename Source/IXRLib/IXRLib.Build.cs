@@ -10,9 +10,9 @@ using EpicGames.Core;
 using Tools.DotNETCommon;
 #endif
 
-public class IXRLib : ModuleRules
+public class AbxrLib : ModuleRules
 {
-	public IXRLib(ReadOnlyTargetRules Target) : base(Target)
+	public AbxrLib(ReadOnlyTargetRules Target) : base(Target)
 	{
 		PCHUsage = ModuleRules.PCHUsageMode.UseExplicitOrSharedPCHs;
 
@@ -54,13 +54,13 @@ public class IXRLib : ModuleRules
 		if (Target.Platform == UnrealTargetPlatform.Android)
 		{
 			string PluginPath = Utils.MakePathRelativeTo(ModuleDirectory, Target.RelativeEnginePath);
-			AdditionalPropertiesForReceipt.Add("AndroidPlugin", Path.Combine(PluginPath, "iXRLib_Android_UPL.xml"));
-			// PublicAdditionalLibraries.Add(PluginPath + "libiXRLibShared.so");
+			AdditionalPropertiesForReceipt.Add("AndroidPlugin", Path.Combine(PluginPath, "AbxrLib_Android_UPL.xml"));
+			// PublicAdditionalLibraries.Add(PluginPath + "libAbxrLibShared.so");
 			
 			PublicIncludePaths.Add(Path.Combine(ModuleDirectory, "../ThirdParty", Target.Platform.ToString(), "includes"));
 			
-			PublicAdditionalLibraries.Add(Path.Combine(ModuleDirectory, "../ThirdParty", Target.Platform.ToString(), "libraries/libiXRLibShared.so"));
-			RuntimeDependencies.Add(Path.Combine(ModuleDirectory, "../ThirdParty", Target.Platform.ToString(), "libraries/libiXRLibShared.so"));
+			PublicAdditionalLibraries.Add(Path.Combine(ModuleDirectory, "../ThirdParty", Target.Platform.ToString(), "libraries/libAbxrLibShared.so"));
+			RuntimeDependencies.Add(Path.Combine(ModuleDirectory, "../ThirdParty", Target.Platform.ToString(), "libraries/libAbxrLibShared.so"));
 			
 			PublicDefinitions.Add("_UNIX");
 		}
@@ -74,14 +74,14 @@ public class IXRLib : ModuleRules
 
 	void HandleWindows(ReadOnlyTargetRules Target)
 	{
-		// LoadThirdPartyLibrary("iXRLibStatic", Target);
-		LoadThirdPartyLibrary("iXRLibShared", Target);
-		PublicDelayLoadDLLs.Add("iXRLibShared.dll");
+		// LoadThirdPartyLibrary("AbxrLibStatic", Target);
+		LoadThirdPartyLibrary("AbxrLibShared", Target);
+		PublicDelayLoadDLLs.Add("AbxrLibShared.dll");
 		PublicDelayLoadDLLs.Add("libcurl.dll");
 		PublicDelayLoadDLLs.Add("sqlite3x64.dll");
 		PublicDelayLoadDLLs.Add("zlib1.dll");
-		RuntimeDependencies.Add("iXRLibShared.pdb");
-		RuntimeDependencies.Add("iXRLibStatic.pdb");
+		RuntimeDependencies.Add("AbxrLibShared.pdb");
+		RuntimeDependencies.Add("AbxrLibStatic.pdb");
 	}
 	public void LoadThirdPartyLibrary(string libname, ReadOnlyTargetRules Target)
 	{

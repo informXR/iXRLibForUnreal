@@ -1,10 +1,10 @@
 ﻿// Fill out your copyright notice in the Description page of Project Settings.
 
 
-#include "IXRBlueprintLibrary.h"
+#include "AbxrBlueprintLibrary.h"
 
 #include "FStringToCharConverter.h"
-#include "iXRDeveloperSettings.h"
+#include "AbxrDeveloperSettings.h"
 
 char16_t* FStringToChar16Ptr(const FString& UnrealString) {
 	UFStringToCharConverter* Converter = NewObject<UFStringToCharConverter>();
@@ -18,59 +18,59 @@ FString Char16PtrToFString(const char16_t* Char16Ptr) {
 
 uint32_t IntToUint32(const int UnrealInt) { return static_cast<uint32_t>(UnrealInt); }
 
-FString UIXRBlueprintLibrary::GetConvertedString(FString String)
+FString UAbxrBlueprintLibrary::GetConvertedString(FString String)
 {
 	char16_t* Char16Ptr = FStringToChar16Ptr(String);
 	return Char16PtrToFString(Char16Ptr);
 }
 
-void UIXRBlueprintLibrary::SetConfigValues()
+void UAbxrBlueprintLibrary::SetConfigValues()
 {
-	SetRestUrl_BFL(*UiXRDeveloperSettings::GetiXRConfig()->restUrl);
+	SetRestUrl_BFL(*UAbxrDeveloperSettings::GetAbxrConfig()->restUrl);
 
-	SetSendRetriesOnFailure_BFL(UiXRDeveloperSettings::GetiXRConfig()->sendRetriesOnFailure);
-	SetSendRetryInterval_BFL(UiXRDeveloperSettings::GetiXRConfig()->sendRetryIntervalSeconds);
-	SetSendNextBatchWait_BFL(UiXRDeveloperSettings::GetiXRConfig()->sendNextBatchWaitSeconds);
-	SetStragglerTimeout_BFL(UiXRDeveloperSettings::GetiXRConfig()->stragglerTimeoutSeconds);
-	SetEventsPerSendAttempt_BFL(UiXRDeveloperSettings::GetiXRConfig()->eventsPerSendAttempt);
-	SetLogsPerSendAttempt_BFL(UiXRDeveloperSettings::GetiXRConfig()->logsPerSendAttempt);
-	SetTelemetryEntriesPerSendAttempt_BFL(UiXRDeveloperSettings::GetiXRConfig()->telemetryEntriesPerSendAttempt);
-	SetStorageEntriesPerSendAttempt_BFL(UiXRDeveloperSettings::GetiXRConfig()->storageEntriesPerSendAttempt);
-	SetPruneSentItemsOlderThan_BFL(UiXRDeveloperSettings::GetiXRConfig()->pruneSentItemsOlderThanHours);
-	SetMaximumCachedItems_BFL(UiXRDeveloperSettings::GetiXRConfig()->maximumCachedItems);
-	SetRetainLocalAfterSent_BFL(UiXRDeveloperSettings::GetiXRConfig()->retainLocalAfterSent);
+	SetSendRetriesOnFailure_BFL(UAbxrDeveloperSettings::GetAbxrConfig()->sendRetriesOnFailure);
+	SetSendRetryInterval_BFL(UAbxrDeveloperSettings::GetAbxrConfig()->sendRetryIntervalSeconds);
+	SetSendNextBatchWait_BFL(UAbxrDeveloperSettings::GetAbxrConfig()->sendNextBatchWaitSeconds);
+	SetStragglerTimeout_BFL(UAbxrDeveloperSettings::GetAbxrConfig()->stragglerTimeoutSeconds);
+	SetEventsPerSendAttempt_BFL(UAbxrDeveloperSettings::GetAbxrConfig()->eventsPerSendAttempt);
+	SetLogsPerSendAttempt_BFL(UAbxrDeveloperSettings::GetAbxrConfig()->logsPerSendAttempt);
+	SetTelemetryEntriesPerSendAttempt_BFL(UAbxrDeveloperSettings::GetAbxrConfig()->telemetryEntriesPerSendAttempt);
+	SetStorageEntriesPerSendAttempt_BFL(UAbxrDeveloperSettings::GetAbxrConfig()->storageEntriesPerSendAttempt);
+	SetPruneSentItemsOlderThan_BFL(UAbxrDeveloperSettings::GetAbxrConfig()->pruneSentItemsOlderThanHours);
+	SetMaximumCachedItems_BFL(UAbxrDeveloperSettings::GetAbxrConfig()->maximumCachedItems);
+	SetRetainLocalAfterSent_BFL(UAbxrDeveloperSettings::GetAbxrConfig()->retainLocalAfterSent);
 }
 
-void UIXRBlueprintLibrary::StartIXRLib_BFL()
+void UAbxrBlueprintLibrary::StartAbxrLib_BFL()
 {
-	iXRLibInitStart();
+	AbxrLibInitStart();
 	SetConfigValues();
-	
-	
-	int StatusIndex = Authenticate_BFL(UiXRDeveloperSettings::GetiXRConfig()->appID, UiXRDeveloperSettings::GetiXRConfig()->orgID,
-			FGuid::NewGuid().ToString(), UiXRDeveloperSettings::GetiXRConfig()->authSecret, 0);
+
+	int StatusIndex = Authenticate_BFL(UAbxrDeveloperSettings::GetAbxrConfig()->appID, UAbxrDeveloperSettings::GetAbxrConfig()->orgID,
+			FGuid::NewGuid().ToString(), UAbxrDeveloperSettings::GetAbxrConfig()->authSecret, 0);
+
 	UE_LOG(LogTemp, Warning, TEXT("Authenticated ====> %d"), StatusIndex);
 	LogInfo_BFL(TEXT("TestStr"), TEXT(""));
 }
 
-void UIXRBlueprintLibrary::iXRLibInitStart_BFL()
+void UAbxrBlueprintLibrary::AbxrLibInitStart_BFL()
 {
-	iXRLibInitStart();
+	AbxrLibInitStart();
 }
 
-void UIXRBlueprintLibrary::iXRLibInitEnd_BFL()
+void UAbxrBlueprintLibrary::AbxrLibInitEnd_BFL()
 {
-	iXRLibInitEnd();
+	AbxrLibInitEnd();
 }
 
-int UIXRBlueprintLibrary::Authenticate_BFL(const FString szAppId, const FString szOrgId, const FString szDeviceId,
+int UAbxrBlueprintLibrary::Authenticate_BFL(const FString szAppId, const FString szOrgId, const FString szDeviceId,
 	const FString szAuthSecret, const int ePartner)
 {
 	return Authenticate(FStringToChar16Ptr(szAppId), FStringToChar16Ptr(szOrgId),
 		FStringToChar16Ptr(szDeviceId), FStringToChar16Ptr(szAuthSecret), 0);
 }
 
-void UIXRBlueprintLibrary::KeyboardAuthenticate(FString KeyboardInput, const FOnReceivedResponseSignature& OnReceivedResponseDelegate)
+void UAbxrBlueprintLibrary::KeyboardAuthenticate(FString KeyboardInput, const FOnReceivedResponseSignature& OnReceivedResponseDelegate)
 {
 	if (KeyboardInput.IsEmpty()) return;
 	const char16_t* Char16Ptr = get_SessionAuthMechanism();
@@ -107,7 +107,7 @@ void UIXRBlueprintLibrary::KeyboardAuthenticate(FString KeyboardInput, const FOn
 	   });
 }
 
-TMap<FString, FString> UIXRBlueprintLibrary::StringToMap(const FString& InputString)
+TMap<FString, FString> UAbxrBlueprintLibrary::StringToMap(const FString& InputString)
 {
 	TMap<FString, FString> Dict;
         
@@ -129,7 +129,7 @@ TMap<FString, FString> UIXRBlueprintLibrary::StringToMap(const FString& InputStr
 	return Dict;
 }
 
-FString UIXRBlueprintLibrary::MapToString(TMap<FString, FString> InputMap)
+FString UAbxrBlueprintLibrary::MapToString(TMap<FString, FString> InputMap)
 {
 	FString Result;
 
@@ -145,121 +145,121 @@ FString UIXRBlueprintLibrary::MapToString(TMap<FString, FString> InputMap)
 	return Result;
 }
 
-int UIXRBlueprintLibrary::FinalAuthenticate_BFL()
+int UAbxrBlueprintLibrary::FinalAuthenticate_BFL()
 {
 	return FinalAuthenticate();
 }
 
-int UIXRBlueprintLibrary::ReAuthenticate_BFL(const bool bObtainAuthSecret)
+int UAbxrBlueprintLibrary::ReAuthenticate_BFL(const bool bObtainAuthSecret)
 {
 	return ReAuthenticate(bObtainAuthSecret);
 }
 
-int UIXRBlueprintLibrary::ForceSendUnsentSynchronous_BFL()
+int UAbxrBlueprintLibrary::ForceSendUnsentSynchronous_BFL()
 {
 	return ForceSendUnsentSynchronous();
 }
 
-void UIXRBlueprintLibrary::CaptureTimeStamp_BFL()
+void UAbxrBlueprintLibrary::CaptureTimeStamp_BFL()
 {
 	CaptureTimeStamp();
 }
 
-void UIXRBlueprintLibrary::UnCaptureTimeStamp_BFL()
+void UAbxrBlueprintLibrary::UnCaptureTimeStamp_BFL()
 {
 	UnCaptureTimeStamp();
 }
 
-int UIXRBlueprintLibrary::LogDebugSynchronous_BFL(const FString szText, const FString szdictMeta)
+int UAbxrBlueprintLibrary::LogDebugSynchronous_BFL(const FString szText, const FString szdictMeta)
 {
 	return LogDebugSynchronous(FStringToChar16Ptr(szText), FStringToChar16Ptr(szdictMeta));
 }
 
-int UIXRBlueprintLibrary::LogDebug_BFL(const FString szText, const FString szdictMeta)
+int UAbxrBlueprintLibrary::LogDebug_BFL(const FString szText, const FString szdictMeta)
 {
 	return LogDebug(FStringToChar16Ptr(szText), FStringToChar16Ptr(szdictMeta));
 }
 
-int UIXRBlueprintLibrary::LogInfoSynchronous_BFL(const FString szText, const FString szdictMeta)
+int UAbxrBlueprintLibrary::LogInfoSynchronous_BFL(const FString szText, const FString szdictMeta)
 {
 	return LogInfo(FStringToChar16Ptr(szText), FStringToChar16Ptr(szdictMeta));
 }
 
-int UIXRBlueprintLibrary::LogInfo_BFL(const FString szText, const FString szdictMeta)
+int UAbxrBlueprintLibrary::LogInfo_BFL(const FString szText, const FString szdictMeta)
 {
 	return LogInfo(FStringToChar16Ptr(szText), FStringToChar16Ptr(szdictMeta));
 }
 
-int UIXRBlueprintLibrary::LogWarnSynchronous_BFL(const FString szText, const FString szdictMeta)
+int UAbxrBlueprintLibrary::LogWarnSynchronous_BFL(const FString szText, const FString szdictMeta)
 {
 	return LogWarnSynchronous(FStringToChar16Ptr(szText), FStringToChar16Ptr(szdictMeta));
 }
 
-int UIXRBlueprintLibrary::LogWarn_BFL(const FString szText, const FString szdictMeta)
+int UAbxrBlueprintLibrary::LogWarn_BFL(const FString szText, const FString szdictMeta)
 {
 	return LogWarn(FStringToChar16Ptr(szText), FStringToChar16Ptr(szdictMeta));
 }
 
-int UIXRBlueprintLibrary::LogErrorSynchronous_BFL(const FString szText, const FString szdictMeta)
+int UAbxrBlueprintLibrary::LogErrorSynchronous_BFL(const FString szText, const FString szdictMeta)
 {
 	return LogError(FStringToChar16Ptr(szText), FStringToChar16Ptr(szdictMeta));
 }
 
-int UIXRBlueprintLibrary::LogError_BFL(const FString szText, const FString szdictMeta)
+int UAbxrBlueprintLibrary::LogError_BFL(const FString szText, const FString szdictMeta)
 {
 	return LogError(FStringToChar16Ptr(szText), FStringToChar16Ptr(szdictMeta));
 }
 
-int UIXRBlueprintLibrary::LogCriticalSynchronous_BFL(const FString szText, const FString szdictMeta)
+int UAbxrBlueprintLibrary::LogCriticalSynchronous_BFL(const FString szText, const FString szdictMeta)
 {
 	return LogCritical(FStringToChar16Ptr(szText), FStringToChar16Ptr(szdictMeta));
 }
 
-int UIXRBlueprintLibrary::LogCritical_BFL(const FString szText, const FString szdictMeta)
+int UAbxrBlueprintLibrary::LogCritical_BFL(const FString szText, const FString szdictMeta)
 {
 	return LogCritical(FStringToChar16Ptr(szText), FStringToChar16Ptr(szdictMeta));
 }
 
 // ---
 
-int UIXRBlueprintLibrary::EventSynchronous_BFL(const FString szMessage, const FString szdictMeta)
+int UAbxrBlueprintLibrary::EventSynchronous_BFL(const FString szMessage, const FString szdictMeta)
 {
 	return EventSynchronous(FStringToChar16Ptr(szMessage), FStringToChar16Ptr(szdictMeta));
 }
 
-int UIXRBlueprintLibrary::Event_BFL(const FString szMessage, const FString szdictMeta)
+int UAbxrBlueprintLibrary::Event_BFL(const FString szMessage, const FString szdictMeta)
 {
 	return Event(FStringToChar16Ptr(szMessage), FStringToChar16Ptr(szdictMeta));
 }
 
-int UIXRBlueprintLibrary::EventAssessmentStart_BFL(const FString szAssessmentName, const FString szdictMeta)
+int UAbxrBlueprintLibrary::EventAssessmentStart_BFL(const FString szAssessmentName, const FString szdictMeta)
 {
 	return EventAssessmentStart(FStringToChar16Ptr(szAssessmentName), FStringToChar16Ptr(szdictMeta));
 }
 
-int UIXRBlueprintLibrary::EventAssessmentComplete_BFL(const FString szAssessmentName, const FString szScore,
+int UAbxrBlueprintLibrary::EventAssessmentComplete_BFL(const FString szAssessmentName, const FString szScore,
 	const int eResultOptions, const FString szdictMeta)
 {
 	return EventAssessmentComplete(FStringToChar16Ptr(szAssessmentName), FStringToChar16Ptr(szScore), eResultOptions, FStringToChar16Ptr(szdictMeta));
 }
 
-int UIXRBlueprintLibrary::EventObjectiveStart_BFL(const FString szObjectiveName, const FString szdictMeta)
+int UAbxrBlueprintLibrary::EventObjectiveStart_BFL(const FString szObjectiveName, const FString szdictMeta)
 {
 	return EventObjectiveStart(FStringToChar16Ptr(szObjectiveName), FStringToChar16Ptr(szdictMeta));
 }
 
-int UIXRBlueprintLibrary::EventObjectiveComplete_BFL(const FString szObjectiveName, const FString szScore,
+int UAbxrBlueprintLibrary::EventObjectiveComplete_BFL(const FString szObjectiveName, const FString szScore,
 	const int eResultOptions, const FString szdictMeta)
 {
 	return EventObjectiveComplete(FStringToChar16Ptr(szObjectiveName), FStringToChar16Ptr(szScore), eResultOptions, FStringToChar16Ptr(szdictMeta));
 }
 
-int UIXRBlueprintLibrary::EventInteractionStart_BFL(const FString szInteractionName, const FString szdictMeta)
+int UAbxrBlueprintLibrary::EventInteractionStart_BFL(const FString szInteractionName, const FString szdictMeta)
 {
 	return EventInteractionStart(FStringToChar16Ptr(szInteractionName), FStringToChar16Ptr(szdictMeta));
 }
 
-int UIXRBlueprintLibrary::EventInteractionComplete_BFL(const FString szInteractionName, const FString szResult,
+int UAbxrBlueprintLibrary::EventInteractionComplete_BFL(const FString szInteractionName, const FString szResult,
 	const FString szResultDetails, int eInteractionType, const FString szdictMeta)
 {
 	return EventInteractionComplete(FStringToChar16Ptr(szInteractionName),
@@ -267,419 +267,419 @@ int UIXRBlueprintLibrary::EventInteractionComplete_BFL(const FString szInteracti
 		eInteractionType, FStringToChar16Ptr(szdictMeta));
 }
 
-int UIXRBlueprintLibrary::EventLevelStart_BFL(const FString szLevelName, const FString szdictMeta)
+int UAbxrBlueprintLibrary::EventLevelStart_BFL(const FString szLevelName, const FString szdictMeta)
 {
 	return EventLevelStart(FStringToChar16Ptr(szLevelName), FStringToChar16Ptr(szdictMeta));
 }
 
-int UIXRBlueprintLibrary::EventLevelComplete_BFL(const FString szLevelName, const FString szScore,
+int UAbxrBlueprintLibrary::EventLevelComplete_BFL(const FString szLevelName, const FString szScore,
 	const FString szdictMeta)
 {
 	return  EventLevelComplete(FStringToChar16Ptr(szLevelName), FStringToChar16Ptr(szScore), FStringToChar16Ptr(szdictMeta));
 }
 
-// const FString UIXRBlueprintLibrary::GetDataPath_BFL()
+// const FString UAbxrBlueprintLibrary::GetDataPath_BFL()
 // {
 // 	return Char16PtrToFString(get_DataPath());
 // }
 //
-// void UIXRBlueprintLibrary::SetDataPath_BFL(const FString szDataPath)
+// void UAbxrBlueprintLibrary::SetDataPath_BFL(const FString szDataPath)
 // {
 // 	set_DataPath(FStringToChar16Ptr(szDataPath));
 // }
 
-const FString UIXRBlueprintLibrary::GetUserId_BFL()
+const FString UAbxrBlueprintLibrary::GetUserId_BFL()
 {
 	return Char16PtrToFString(get_UserId());
 }
 
-void UIXRBlueprintLibrary::SetUserId_BFL(const FString szUserId)
+void UAbxrBlueprintLibrary::SetUserId_BFL(const FString szUserId)
 {
 	set_UserId(FStringToChar16Ptr(szUserId));
 }
 
-const FString UIXRBlueprintLibrary::GetSessionAuthMechanism_BFL()
+const FString UAbxrBlueprintLibrary::GetSessionAuthMechanism_BFL()
 {
 	return Char16PtrToFString(get_SessionAuthMechanism());
 }
 
-void UIXRBlueprintLibrary::SetSessionAuthMechanism_BFL(const FString szdictValue)
+void UAbxrBlueprintLibrary::SetSessionAuthMechanism_BFL(const FString szdictValue)
 {
 	set_SessionAuthMechanism(FStringToChar16Ptr(szdictValue));
 }
 
-const FString UIXRBlueprintLibrary::GetAppConfigAuthMechanism_BFL()
+const FString UAbxrBlueprintLibrary::GetAppConfigAuthMechanism_BFL()
 {
 	return Char16PtrToFString(get_AppConfigAuthMechanism());
 }
 
-void UIXRBlueprintLibrary::SetAppConfigAuthMechanism_BFL(const FString szdictValue)
+void UAbxrBlueprintLibrary::SetAppConfigAuthMechanism_BFL(const FString szdictValue)
 {
 	set_AppConfigAuthMechanism(FStringToChar16Ptr(szdictValue));
 }
 
-int UIXRBlueprintLibrary::AddAIProxySynchronous_BFL(const FString szPrompt, const FString szPastMessages,
+int UAbxrBlueprintLibrary::AddAIProxySynchronous_BFL(const FString szPrompt, const FString szPastMessages,
                                                     const FString szLMMProvider)
 {
 	return AddAIProxySynchronous(FStringToChar16Ptr(szPrompt), FStringToChar16Ptr(szPastMessages), FStringToChar16Ptr(szLMMProvider));
 }
 
-int UIXRBlueprintLibrary::AddAIProxy_BFL(const FString szPrompt, const FString szPastMessages,
+int UAbxrBlueprintLibrary::AddAIProxy_BFL(const FString szPrompt, const FString szPastMessages,
 	const FString szLMMProvider)
 {
 	return AddAIProxy(FStringToChar16Ptr(szPrompt), FStringToChar16Ptr(szPastMessages), FStringToChar16Ptr(szLMMProvider));
 }
 
-int UIXRBlueprintLibrary::AddTelemetryEntrySynchronous_BFL(const FString szName, const FString szdictMeta)
+int UAbxrBlueprintLibrary::AddTelemetryEntrySynchronous_BFL(const FString szName, const FString szdictMeta)
 {
 	return AddTelemetryEntrySynchronous(FStringToChar16Ptr(szName), FStringToChar16Ptr(szdictMeta));
 }
 
-int UIXRBlueprintLibrary::AddTelemetryEntry_BFL(const FString szName, const FString szdictMeta)
+int UAbxrBlueprintLibrary::AddTelemetryEntry_BFL(const FString szName, const FString szdictMeta)
 {
 	return AddTelemetryEntry(FStringToChar16Ptr(szName), FStringToChar16Ptr(szdictMeta));
 }
 
-bool UIXRBlueprintLibrary::PlatformIsWindows_BFL()
+bool UAbxrBlueprintLibrary::PlatformIsWindows_BFL()
 {
 	return PlatformIsWindows();
 }
 
-FString UIXRBlueprintLibrary::GetApiToken_BFL()
+FString UAbxrBlueprintLibrary::GetApiToken_BFL()
 {
 	return Char16PtrToFString(get_ApiToken());
 }
 
-void UIXRBlueprintLibrary::SetApiToken_BFL(const FString szApiToken)
+void UAbxrBlueprintLibrary::SetApiToken_BFL(const FString szApiToken)
 {
 	set_ApiToken(FStringToChar16Ptr(szApiToken));
 }
 
-FString UIXRBlueprintLibrary::GetApiSecret_BFL()
+FString UAbxrBlueprintLibrary::GetApiSecret_BFL()
 {
 	return Char16PtrToFString(get_ApiSecret());
 }
 
-void UIXRBlueprintLibrary::SetApiSecret_BFL(const FString szApiSecret)
+void UAbxrBlueprintLibrary::SetApiSecret_BFL(const FString szApiSecret)
 {
 	set_ApiSecret(FStringToChar16Ptr(szApiSecret));
 }
 
-FString UIXRBlueprintLibrary::GetAppID_BFL()
+FString UAbxrBlueprintLibrary::GetAppID_BFL()
 {
 	return Char16PtrToFString(get_AppID());
 }
 
-void UIXRBlueprintLibrary::SetAppID_BFL(const FString szAppID)
+void UAbxrBlueprintLibrary::SetAppID_BFL(const FString szAppID)
 {
 	set_AppID(FStringToChar16Ptr(szAppID));
 }
 
-FString UIXRBlueprintLibrary::GetOrgID_BFL()
+FString UAbxrBlueprintLibrary::GetOrgID_BFL()
 {
 	return Char16PtrToFString(get_OrgID());
 }
 
-void UIXRBlueprintLibrary::SetOrgID_BFL(const FString szOrgID)
+void UAbxrBlueprintLibrary::SetOrgID_BFL(const FString szOrgID)
 {
 	set_OrgID(FStringToChar16Ptr(szOrgID));
 }
 
-bool UIXRBlueprintLibrary::TokenExpirationImminent_BFL()
+bool UAbxrBlueprintLibrary::TokenExpirationImminent_BFL()
 {
 	return TokenExpirationImminent();
 }
 
-int UIXRBlueprintLibrary::GetPartner_BFL()
+int UAbxrBlueprintLibrary::GetPartner_BFL()
 {
 	return get_Partner();
 }
 
-void UIXRBlueprintLibrary::SetPartner_BFL(const int ePartner)
+void UAbxrBlueprintLibrary::SetPartner_BFL(const int ePartner)
 {
 	set_Partner(ePartner);
 }
 
-FString UIXRBlueprintLibrary::GetOsVersion_BFL()
+FString UAbxrBlueprintLibrary::GetOsVersion_BFL()
 {
 	return Char16PtrToFString(get_OsVersion());
 }
 
-void UIXRBlueprintLibrary::SetOsVersion_BFL(const FString szOsVersion)
+void UAbxrBlueprintLibrary::SetOsVersion_BFL(const FString szOsVersion)
 {
 	set_OsVersion(FStringToChar16Ptr(szOsVersion));
 }
 
-FString UIXRBlueprintLibrary::GetIpAddress_BFL()
+FString UAbxrBlueprintLibrary::GetIpAddress_BFL()
 {
 	return Char16PtrToFString(get_IpAddress());
 }
 
-void UIXRBlueprintLibrary::SetIpAddress_BFL(const FString szIpAddress)
+void UAbxrBlueprintLibrary::SetIpAddress_BFL(const FString szIpAddress)
 {
 	set_IpAddress(FStringToChar16Ptr(szIpAddress));
 }
 
-FString UIXRBlueprintLibrary::GetXrdmVersion_BFL()
+FString UAbxrBlueprintLibrary::GetXrdmVersion_BFL()
 {
 	return Char16PtrToFString(get_XrdmVersion());
 }
 
-void UIXRBlueprintLibrary::SetXrdmVersion_BFL(const FString szXrdmVersion)
+void UAbxrBlueprintLibrary::SetXrdmVersion_BFL(const FString szXrdmVersion)
 {
 	set_XrdmVersion(FStringToChar16Ptr(szXrdmVersion));
 }
 
-FString UIXRBlueprintLibrary::GetAppVersion_BFL()
+FString UAbxrBlueprintLibrary::GetAppVersion_BFL()
 {
 	return Char16PtrToFString(get_AppVersion());
 }
 
-void UIXRBlueprintLibrary::SetAppVersion_BFL(const FString szAppVersion)
+void UAbxrBlueprintLibrary::SetAppVersion_BFL(const FString szAppVersion)
 {
 	set_AppVersion(FStringToChar16Ptr(szAppVersion));
 }
 
-FString UIXRBlueprintLibrary::GetUnrealVersion_BFL()
+FString UAbxrBlueprintLibrary::GetUnrealVersion_BFL()
 {
 	return FString();
 }
 
-void UIXRBlueprintLibrary::SetUnrealVersion_BFL(const FString szUnityVersion)
+void UAbxrBlueprintLibrary::SetUnrealVersion_BFL(const FString szUnityVersion)
 {
 }
 
-FString UIXRBlueprintLibrary::GetDeviceModel_BFL()
+FString UAbxrBlueprintLibrary::GetDeviceModel_BFL()
 {
 	return Char16PtrToFString(get_DeviceModel());
 }
 
-void UIXRBlueprintLibrary::SetDeviceModel_BFL(const FString szDeviceModel)
+void UAbxrBlueprintLibrary::SetDeviceModel_BFL(const FString szDeviceModel)
 {
 	set_DeviceModel(FStringToChar16Ptr(szDeviceModel));
 }
 
-FString UIXRBlueprintLibrary::GetTags_BFL()
+FString UAbxrBlueprintLibrary::GetTags_BFL()
 {
 	return Char16PtrToFString(get_Tags());
 }
 
-void UIXRBlueprintLibrary::SetTags_BFL(const FString szlszTags)
+void UAbxrBlueprintLibrary::SetTags_BFL(const FString szlszTags)
 {
 	set_Tags(FStringToChar16Ptr(szlszTags));
 }
 
-FString UIXRBlueprintLibrary::GetGeoLocation_BFL()
+FString UAbxrBlueprintLibrary::GetGeoLocation_BFL()
 {
 	return Char16PtrToFString(get_GeoLocation());
 }
 
-void UIXRBlueprintLibrary::SetGeoLocation_BFL(const FString szdictGeoLocation)
+void UAbxrBlueprintLibrary::SetGeoLocation_BFL(const FString szdictGeoLocation)
 {
 	set_GeoLocation(FStringToChar16Ptr(szdictGeoLocation));
 }
 
-FString UIXRBlueprintLibrary::StorageGetDefaultEntryAsString_BFL()
+FString UAbxrBlueprintLibrary::StorageGetDefaultEntryAsString_BFL()
 {
 	return Char16PtrToFString(StorageGetDefaultEntryAsString());
 }
 
-FString UIXRBlueprintLibrary::StorageGetEntryAsString_BFL(const FString wszName)
+FString UAbxrBlueprintLibrary::StorageGetEntryAsString_BFL(const FString wszName)
 {
 	return Char16PtrToFString(StorageGetEntryAsString(FStringToChar16Ptr(wszName)));
 }
 
-int UIXRBlueprintLibrary::StorageSetDefaultEntryFromString_BFL(const FString wszStorageEntry, const bool bKeepLatest,
+int UAbxrBlueprintLibrary::StorageSetDefaultEntryFromString_BFL(const FString wszStorageEntry, const bool bKeepLatest,
 	const FString wszOrigin, const bool bSessionData)
 {
 	return StorageSetDefaultEntryFromString(FStringToChar16Ptr(wszStorageEntry), bKeepLatest,
 											FStringToChar16Ptr(wszOrigin), bSessionData);
 }
 
-int UIXRBlueprintLibrary::StorageSetEntryFromString_BFL(const FString wszName, const FString wszStorageEntry,
+int UAbxrBlueprintLibrary::StorageSetEntryFromString_BFL(const FString wszName, const FString wszStorageEntry,
 	const bool bKeepLatest, const FString wszOrigin, const bool bSessionData)
 {
 	return StorageSetEntryFromString(FStringToChar16Ptr(wszName), FStringToChar16Ptr(wszStorageEntry),
 		bKeepLatest, FStringToChar16Ptr(wszOrigin), bSessionData);
 }
 
-int UIXRBlueprintLibrary::StorageRemoveDefaultEntry_BFL()
+int UAbxrBlueprintLibrary::StorageRemoveDefaultEntry_BFL()
 {
 	return StorageRemoveDefaultEntry();
 }
 
-int UIXRBlueprintLibrary::StorageRemoveEntry_BFL(const FString wszName)
+int UAbxrBlueprintLibrary::StorageRemoveEntry_BFL(const FString wszName)
 {
 	return StorageRemoveEntry(FStringToChar16Ptr(wszName));
 }
 
-int UIXRBlueprintLibrary::StorageRemoveMultipleEntries_BFL(const bool bSessionOnly)
+int UAbxrBlueprintLibrary::StorageRemoveMultipleEntries_BFL(const bool bSessionOnly)
 {
 	return StorageRemoveMultipleEntries(bSessionOnly);
 }
 
-FString UIXRBlueprintLibrary::GetRestUrl_BFL()
+FString UAbxrBlueprintLibrary::GetRestUrl_BFL()
 {
 	return Char16PtrToFString(get_RestUrl());
 }
 
-void UIXRBlueprintLibrary::SetRestUrl_BFL(const FString szValue)
+void UAbxrBlueprintLibrary::SetRestUrl_BFL(const FString szValue)
 {
 	set_RestUrl(FStringToChar16Ptr(szValue));
 }
 
-int UIXRBlueprintLibrary::GetSendRetriesOnFailure_BFL()
+int UAbxrBlueprintLibrary::GetSendRetriesOnFailure_BFL()
 {
 	return get_SendRetriesOnFailure();
 }
 
-void UIXRBlueprintLibrary::SetSendRetriesOnFailure_BFL(int nValue)
+void UAbxrBlueprintLibrary::SetSendRetriesOnFailure_BFL(int nValue)
 {
 	set_SendRetriesOnFailure(nValue);
 	
 }
 
-double UIXRBlueprintLibrary::GetSendRetryInterval_BFL()
+double UAbxrBlueprintLibrary::GetSendRetryInterval_BFL()
 {
 	return get_SendRetryInterval();
 }
 
-void UIXRBlueprintLibrary::SetSendRetryInterval_BFL(double tsValue)
+void UAbxrBlueprintLibrary::SetSendRetryInterval_BFL(double tsValue)
 {
 	set_SendRetryInterval(tsValue);
 }
 
-double UIXRBlueprintLibrary::GetSendNextBatchWait_BFL()
+double UAbxrBlueprintLibrary::GetSendNextBatchWait_BFL()
 {
 	return get_SendNextBatchWait();
 }
 
-void UIXRBlueprintLibrary::SetSendNextBatchWait_BFL(double tsValue)
+void UAbxrBlueprintLibrary::SetSendNextBatchWait_BFL(double tsValue)
 {
 	set_SendNextBatchWait(tsValue);
 }
 
-double UIXRBlueprintLibrary::GetStragglerTimeout_BFL()
+double UAbxrBlueprintLibrary::GetStragglerTimeout_BFL()
 {
 	return get_StragglerTimeout();
 }
 
-void UIXRBlueprintLibrary::SetStragglerTimeout_BFL(double tsValue)
+void UAbxrBlueprintLibrary::SetStragglerTimeout_BFL(double tsValue)
 {
 	set_StragglerTimeout(tsValue);
 }
 
-int UIXRBlueprintLibrary::GetEventsPerSendAttempt_BFL()
+int UAbxrBlueprintLibrary::GetEventsPerSendAttempt_BFL()
 {
 	return get_EventsPerSendAttempt();
 }
 
-void UIXRBlueprintLibrary::SetEventsPerSendAttempt_BFL(int nValue)
+void UAbxrBlueprintLibrary::SetEventsPerSendAttempt_BFL(int nValue)
 {
 	set_EventsPerSendAttempt(nValue);
 }
 
-int UIXRBlueprintLibrary::GetLogsPerSendAttempt_BFL()
+int UAbxrBlueprintLibrary::GetLogsPerSendAttempt_BFL()
 {
 	return get_LogsPerSendAttempt();
 }
 
-void UIXRBlueprintLibrary::SetLogsPerSendAttempt_BFL(int nValue)
+void UAbxrBlueprintLibrary::SetLogsPerSendAttempt_BFL(int nValue)
 {
 	set_LogsPerSendAttempt(nValue);
 }
 
-int UIXRBlueprintLibrary::GetTelemetryEntriesPerSendAttempt_BFL()
+int UAbxrBlueprintLibrary::GetTelemetryEntriesPerSendAttempt_BFL()
 {
 	return get_TelemetryEntriesPerSendAttempt();
 }
 
-void UIXRBlueprintLibrary::SetTelemetryEntriesPerSendAttempt_BFL(int nValue)
+void UAbxrBlueprintLibrary::SetTelemetryEntriesPerSendAttempt_BFL(int nValue)
 {
 	set_TelemetryEntriesPerSendAttempt(nValue);
 }
 
-int UIXRBlueprintLibrary::GetStorageEntriesPerSendAttempt_BFL()
+int UAbxrBlueprintLibrary::GetStorageEntriesPerSendAttempt_BFL()
 {
 	return get_StorageEntriesPerSendAttempt();
 }
 
-void UIXRBlueprintLibrary::SetStorageEntriesPerSendAttempt_BFL(int nValue)
+void UAbxrBlueprintLibrary::SetStorageEntriesPerSendAttempt_BFL(int nValue)
 {
 	set_StorageEntriesPerSendAttempt(nValue);
 }
 
-double UIXRBlueprintLibrary::GetPruneSentItemsOlderThan_BFL()
+double UAbxrBlueprintLibrary::GetPruneSentItemsOlderThan_BFL()
 {
 	return get_PruneSentItemsOlderThan();
 }
 
-void UIXRBlueprintLibrary::SetPruneSentItemsOlderThan_BFL(double tsValue)
+void UAbxrBlueprintLibrary::SetPruneSentItemsOlderThan_BFL(double tsValue)
 {
 	set_PruneSentItemsOlderThan(tsValue);
 }
 
-int UIXRBlueprintLibrary::GetMaximumCachedItems_BFL()
+int UAbxrBlueprintLibrary::GetMaximumCachedItems_BFL()
 {
 	return get_MaximumCachedItems();
 }
 
-void UIXRBlueprintLibrary::SetMaximumCachedItems_BFL(int nValue)
+void UAbxrBlueprintLibrary::SetMaximumCachedItems_BFL(int nValue)
 {
 	set_MaximumCachedItems(nValue);
 }
 
-bool UIXRBlueprintLibrary::GetRetainLocalAfterSent_BFL()
+bool UAbxrBlueprintLibrary::GetRetainLocalAfterSent_BFL()
 {
 	return get_RetainLocalAfterSent();
 }
 
-void UIXRBlueprintLibrary::SetRetainLocalAfterSent_BFL(bool bValue)
+void UAbxrBlueprintLibrary::SetRetainLocalAfterSent_BFL(bool bValue)
 {
 	set_RetainLocalAfterSent(bValue);
 }
 
-bool UIXRBlueprintLibrary::GetReAuthenticateBeforeTokenExpires_BFL()
+bool UAbxrBlueprintLibrary::GetReAuthenticateBeforeTokenExpires_BFL()
 {
 	return get_ReAuthenticateBeforeTokenExpires();
 }
 
-void UIXRBlueprintLibrary::SetReAuthenticateBeforeTokenExpires_BFL(bool bValue)
+void UAbxrBlueprintLibrary::SetReAuthenticateBeforeTokenExpires_BFL(bool bValue)
 {
 	return set_ReAuthenticateBeforeTokenExpires(bValue);
 }
 
-bool UIXRBlueprintLibrary::GetUseDatabase_BFL()
+bool UAbxrBlueprintLibrary::GetUseDatabase_BFL()
 {
 	return get_UseDatabase();
 }
 
-void UIXRBlueprintLibrary::SetUseDatabase_BFL(bool bValue)
+void UAbxrBlueprintLibrary::SetUseDatabase_BFL(bool bValue)
 {
 	set_UseDatabase(bValue);
 }
 
-bool UIXRBlueprintLibrary::ReadConfig_BFL()
+bool UAbxrBlueprintLibrary::ReadConfig_BFL()
 {
 	return ReadConfig();
 }
 
-bool UIXRBlueprintLibrary::GetAuthSecretCSharp_BFL()
+bool UAbxrBlueprintLibrary::GetAuthSecretCSharp_BFL()
 {
 	return GetAuthSecretCSharp();
 }
 
-void UIXRBlueprintLibrary::SetGetAuthSecretCallbackRet_BFL(const FString szAuthSecret)
+void UAbxrBlueprintLibrary::SetGetAuthSecretCallbackRet_BFL(const FString szAuthSecret)
 {
 	SetGetAuthSecretCallbackRet(FStringToChar16Ptr(szAuthSecret));
 }
 
-void UIXRBlueprintLibrary::SetServingCSharp_BFL(const bool bServingCSharp)
+void UAbxrBlueprintLibrary::SetServingCSharp_BFL(const bool bServingCSharp)
 {
 	SetServingCSharp(bServingCSharp);
 }
 
-bool UIXRBlueprintLibrary::GetNextDiagnosticString_BFL(FString& pbstrString)
+bool UAbxrBlueprintLibrary::GetNextDiagnosticString_BFL(FString& pbstrString)
 {
 	char16_t* char16Str = nullptr;
 
@@ -694,7 +694,7 @@ bool UIXRBlueprintLibrary::GetNextDiagnosticString_BFL(FString& pbstrString)
 
 }
 
-uint8 UIXRBlueprintLibrary::HTTPGet_BFL(const FString bstrUrl, FString& pbstrResponse)
+uint8 UAbxrBlueprintLibrary::HTTPGet_BFL(const FString bstrUrl, FString& pbstrResponse)
 {
 	char16_t* char16Str = nullptr;
 	auto result = HTTPGet(FStringToChar16Ptr(bstrUrl), &char16Str);
@@ -703,7 +703,7 @@ uint8 UIXRBlueprintLibrary::HTTPGet_BFL(const FString bstrUrl, FString& pbstrRes
 	return 0;
 }
 
-uint8 UIXRBlueprintLibrary::HTTPPost_BFL(const FString bstrUrl, FString& pbstrResponse)
+uint8 UAbxrBlueprintLibrary::HTTPPost_BFL(const FString bstrUrl, FString& pbstrResponse)
 {
 	char16_t* char16Str = nullptr;
 	auto result = HTTPPost(FStringToChar16Ptr(bstrUrl), &char16Str);
@@ -712,12 +712,12 @@ uint8 UIXRBlueprintLibrary::HTTPPost_BFL(const FString bstrUrl, FString& pbstrRe
 	return 0;
 }
 
-int UIXRBlueprintLibrary::iXRLibAnalyticsTestsInterop_BFL(const FString bstrCommandLine)
+int UAbxrBlueprintLibrary::AbxrLibAnalyticsTestsInterop_BFL(const FString bstrCommandLine)
 {
-	return iXRLibAnalyticsTestsInterop(FStringToChar16Ptr(bstrCommandLine));
+	return AbxrLibAnalyticsTestsInterop(FStringToChar16Ptr(bstrCommandLine));
 }
 
-// FString UIXRBlueprintLibrary::TestGetAuthSecretCallback_BFL()
+// FString UAbxrBlueprintLibrary::TestGetAuthSecretCallback_BFL()
 // {
 // 	return Char16PtrToFString(TestGetAuthSecretCallback());
 // }

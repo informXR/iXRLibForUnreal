@@ -10,7 +10,7 @@
  * 
  */
 UCLASS()
-class IXRLIB_API UFStringToCharConverter : public UObject
+class ABXRLIB_API UFStringToCharConverter : public UObject
 {
 	GENERATED_BODY()
 

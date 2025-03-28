@@ -183,8 +183,8 @@ using CSharpDateTime = time_t;
 
 extern "C" DLLEXPORT void FreePtr(char16_t* ptr);
 // --- API code.
-extern "C" DLLEXPORT void iXRLibInitStart();
-extern "C" DLLEXPORT void iXRLibInitEnd();
+extern "C" DLLEXPORT void AbxrLibInitStart();
+extern "C" DLLEXPORT void AbxrLibInitEnd();
 // ---
 extern "C" DLLEXPORT uint32_t Authenticate(const char16_t* szAppId, const char16_t* szOrgId, const char16_t* szDeviceId, const char16_t* szAuthSecret, const uint32_t ePartner);
 extern "C" DLLEXPORT uint32_t FinalAuthenticate();
@@ -347,7 +347,7 @@ extern "C" DLLEXPORT bool GetNextDiagnosticString(OUT char16_t** pbstrString);
 extern "C" DLLEXPORT CURLCode HTTPGet(const char16_t* bstrUrl, OUT char16_t** pbstrResponse);
 extern "C" DLLEXPORT CURLCode HTTPPost(const char16_t* bstrUrl, OUT char16_t** pbstrResponse);
 // Easy to call from C++ that links the .dll.
-extern "C" DLLEXPORT int iXRLibAnalyticsTests(int argc, char* argv[]);
+extern "C" DLLEXPORT int AbxrLibAnalyticsTests(int argc, char* argv[]);
 // Easy to call from C# interop.
-extern "C" DLLEXPORT int iXRLibAnalyticsTestsInterop(const char16_t* bstrCommandLine);
+extern "C" DLLEXPORT int AbxrLibAnalyticsTestsInterop(const char16_t* bstrCommandLine);
 extern "C" DLLEXPORT const char16_t* TestGetAuthSecretCallback();

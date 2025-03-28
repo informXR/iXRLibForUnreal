@@ -11,7 +11,7 @@
 
 #include "CoreMinimal.h"
 #include "Kismet/BlueprintFunctionLibrary.h"
-#include "IXRBlueprintLibrary.generated.h"
+#include "AbxrBlueprintLibrary.generated.h"
 
 DECLARE_DYNAMIC_DELEGATE_OneParam(FOnReceivedResponseSignature, int, ResponseCode);
 
@@ -19,7 +19,7 @@ DECLARE_DYNAMIC_DELEGATE_OneParam(FOnReceivedResponseSignature, int, ResponseCod
  * 
  */
 UCLASS()
-class IXRLIB_API UIXRBlueprintLibrary : public UBlueprintFunctionLibrary
+class ABXRLIB_API UAbxrBlueprintLibrary : public UBlueprintFunctionLibrary
 {
 	GENERATED_BODY()
 
@@ -30,348 +30,348 @@ public:
 	static void SetConfigValues();
 
 	UFUNCTION(BlueprintCallable)
-	static void StartIXRLib_BFL();
+	static void StartAbxrLib_BFL();
 	
-	UFUNCTION(BlueprintCallable, Category = "iXRLib")
-	static void iXRLibInitStart_BFL();
+	UFUNCTION(BlueprintCallable, Category = "AbxrLib")
+	static void AbxrLibInitStart_BFL();
 	
-	UFUNCTION(BlueprintCallable, Category = "iXRLib")
-	static void iXRLibInitEnd_BFL();
+	UFUNCTION(BlueprintCallable, Category = "AbxrLib")
+	static void AbxrLibInitEnd_BFL();
 	
-	UFUNCTION(BlueprintCallable, Category = "iXRLib")
+	UFUNCTION(BlueprintCallable, Category = "AbxrLib")
 	static int Authenticate_BFL(const FString szAppId, const FString szOrgId, const FString szDeviceId, const FString szAuthSecret, const int ePartner);
 	
-	UFUNCTION(BlueprintCallable, Category = "iXRLib")
+	UFUNCTION(BlueprintCallable, Category = "AbxrLib")
 	static int FinalAuthenticate_BFL();
 
-	UFUNCTION(BlueprintCallable, Category = "iXRLib")
+	UFUNCTION(BlueprintCallable, Category = "AbxrLib")
 	static void KeyboardAuthenticate(FString KeyboardInput, const FOnReceivedResponseSignature& OnReceivedResponseDelegate);	
 	
-	UFUNCTION(BlueprintCallable, Category = "iXRLib")
+	UFUNCTION(BlueprintCallable, Category = "AbxrLib")
 	static int ReAuthenticate_BFL(const bool bObtainAuthSecret);
 	
-	UFUNCTION(BlueprintCallable, Category = "iXRLib")
+	UFUNCTION(BlueprintCallable, Category = "AbxrLib")
 	static int ForceSendUnsentSynchronous_BFL();
 	
-	UFUNCTION(BlueprintCallable, Category = "iXRLib")
+	UFUNCTION(BlueprintCallable, Category = "AbxrLib")
 	static void CaptureTimeStamp_BFL();
 	
-	UFUNCTION(BlueprintCallable, Category = "iXRLib")
+	UFUNCTION(BlueprintCallable, Category = "AbxrLib")
 	static void UnCaptureTimeStamp_BFL();
 	
-	UFUNCTION(BlueprintCallable, Category = "iXRLib")
+	UFUNCTION(BlueprintCallable, Category = "AbxrLib")
 	static int LogDebugSynchronous_BFL(const FString szText, const FString szdictMeta);
 	
-	UFUNCTION(BlueprintCallable, Category = "iXRLib")
+	UFUNCTION(BlueprintCallable, Category = "AbxrLib")
 	static int LogDebug_BFL(const FString szText, const FString szdictMeta);
 	
-	UFUNCTION(BlueprintCallable, Category = "iXRLib")
+	UFUNCTION(BlueprintCallable, Category = "AbxrLib")
 	static int LogInfoSynchronous_BFL(const FString szText, const FString szdictMeta);
 	
-	UFUNCTION(BlueprintCallable, Category = "iXRLib")
+	UFUNCTION(BlueprintCallable, Category = "AbxrLib")
 	static int LogInfo_BFL(const FString szText, const FString szdictMeta);
 	
-	UFUNCTION(BlueprintCallable, Category = "iXRLib")
+	UFUNCTION(BlueprintCallable, Category = "AbxrLib")
 	static int LogWarnSynchronous_BFL(const FString szText, const FString szdictMeta);
 	
-	UFUNCTION(BlueprintCallable, Category = "iXRLib")
+	UFUNCTION(BlueprintCallable, Category = "AbxrLib")
 	static int LogWarn_BFL(const FString szText, const FString szdictMeta);
 	
-	UFUNCTION(BlueprintCallable, Category = "iXRLib")
+	UFUNCTION(BlueprintCallable, Category = "AbxrLib")
 	static int LogErrorSynchronous_BFL(const FString szText, const FString szdictMeta);
 	
-	UFUNCTION(BlueprintCallable, Category = "iXRLib")
+	UFUNCTION(BlueprintCallable, Category = "AbxrLib")
 	static int LogError_BFL(const FString szText, const FString szdictMeta);
 	
-	UFUNCTION(BlueprintCallable, Category = "iXRLib")
+	UFUNCTION(BlueprintCallable, Category = "AbxrLib")
 	static int LogCriticalSynchronous_BFL(const FString szText, const FString szdictMeta);
 	
-	UFUNCTION(BlueprintCallable, Category = "iXRLib")
+	UFUNCTION(BlueprintCallable, Category = "AbxrLib")
 	static int LogCritical_BFL(const FString szText, const FString szdictMeta);
 	
-	UFUNCTION(BlueprintCallable, Category = "iXRLib")
+	UFUNCTION(BlueprintCallable, Category = "AbxrLib")
 	static int EventSynchronous_BFL(const FString szMessage, const FString szdictMeta);
 	
-	UFUNCTION(BlueprintCallable, Category = "iXRLib")
+	UFUNCTION(BlueprintCallable, Category = "AbxrLib")
 	static int Event_BFL(const FString szMessage, const FString szdictMeta);
 	
-	UFUNCTION(BlueprintCallable, Category = "iXRLib")
+	UFUNCTION(BlueprintCallable, Category = "AbxrLib")
 	static int EventAssessmentStart_BFL(const FString szAssessmentName, const FString szdictMeta);
 
-	UFUNCTION(BlueprintCallable, Category = "iXRLib")
+	UFUNCTION(BlueprintCallable, Category = "AbxrLib")
 	static int EventAssessmentComplete_BFL(const FString szAssessmentName, const FString szScore, const int eResultOptions, const FString szdictMeta);
 
-	UFUNCTION(BlueprintCallable, Category = "iXRLib")
+	UFUNCTION(BlueprintCallable, Category = "AbxrLib")
 	static int EventObjectiveStart_BFL(const FString szObjectiveName, const FString szdictMeta);
 
-	UFUNCTION(BlueprintCallable, Category = "iXRLib")
+	UFUNCTION(BlueprintCallable, Category = "AbxrLib")
 	static int EventObjectiveComplete_BFL(const FString szObjectiveName, const FString szScore, const int eResultOptions, const FString szdictMeta);
 
-	UFUNCTION(BlueprintCallable, Category = "iXRLib")
+	UFUNCTION(BlueprintCallable, Category = "AbxrLib")
 	static int EventInteractionStart_BFL(const FString szInteractionName, const FString szdictMeta);
 
-	UFUNCTION(BlueprintCallable, Category = "iXRLib")
+	UFUNCTION(BlueprintCallable, Category = "AbxrLib")
 	static int EventInteractionComplete_BFL(const FString szInteractionName, const FString szResult, const FString szResultDetails, int eInteractionType, const FString szdictMeta);
 
-	UFUNCTION(BlueprintCallable, Category = "iXRLib")
+	UFUNCTION(BlueprintCallable, Category = "AbxrLib")
 	static int EventLevelStart_BFL(const FString szLevelName, const FString szdictMeta);
 
-	UFUNCTION(BlueprintCallable, Category = "iXRLib")
+	UFUNCTION(BlueprintCallable, Category = "AbxrLib")
 	static int EventLevelComplete_BFL(const FString szLevelName, const FString szScore, const FString szdictMeta);
 	
-	UFUNCTION(BlueprintCallable, Category = "iXRLib")
+	UFUNCTION(BlueprintCallable, Category = "AbxrLib")
 	static int AddAIProxySynchronous_BFL(const FString szPrompt, const FString szPastMessages, const FString szLMMProvider);
 	
-	UFUNCTION(BlueprintCallable, Category = "iXRLib")
+	UFUNCTION(BlueprintCallable, Category = "AbxrLib")
 	static int AddAIProxy_BFL(const FString szPrompt, const FString szPastMessages, const FString szLMMProvider);
 	
-	UFUNCTION(BlueprintCallable, Category = "iXRLib")
+	UFUNCTION(BlueprintCallable, Category = "AbxrLib")
 	static int AddTelemetryEntrySynchronous_BFL(const FString szName, const FString szdictMeta);
 	
-	UFUNCTION(BlueprintCallable, Category = "iXRLib")
+	UFUNCTION(BlueprintCallable, Category = "AbxrLib")
 	static int AddTelemetryEntry_BFL(const FString szName, const FString szdictMeta);
 	
-	UFUNCTION(BlueprintCallable, Category = "iXRLib")
+	UFUNCTION(BlueprintCallable, Category = "AbxrLib")
 	static bool PlatformIsWindows_BFL();
 	
-	UFUNCTION(BlueprintCallable, Category = "iXRLib")
+	UFUNCTION(BlueprintCallable, Category = "AbxrLib")
 	static FString GetApiToken_BFL();
 	
-	UFUNCTION(BlueprintCallable, Category = "iXRLib")
+	UFUNCTION(BlueprintCallable, Category = "AbxrLib")
 	static void SetApiToken_BFL(const FString szApiToken);
 	
-	UFUNCTION(BlueprintCallable, Category = "iXRLib")
+	UFUNCTION(BlueprintCallable, Category = "AbxrLib")
 	static FString GetApiSecret_BFL();
 	
-	UFUNCTION(BlueprintCallable, Category = "iXRLib")
+	UFUNCTION(BlueprintCallable, Category = "AbxrLib")
 	static void SetApiSecret_BFL(const FString szApiSecret);
 	
-	UFUNCTION(BlueprintCallable, Category = "iXRLib")
+	UFUNCTION(BlueprintCallable, Category = "AbxrLib")
 	static FString GetAppID_BFL();
 	
-	UFUNCTION(BlueprintCallable, Category = "iXRLib")
+	UFUNCTION(BlueprintCallable, Category = "AbxrLib")
 	static void SetAppID_BFL(const FString szAppID);
 	
-	UFUNCTION(BlueprintCallable, Category = "iXRLib")
+	UFUNCTION(BlueprintCallable, Category = "AbxrLib")
 	static FString GetOrgID_BFL();
 	
-	UFUNCTION(BlueprintCallable, Category = "iXRLib")
+	UFUNCTION(BlueprintCallable, Category = "AbxrLib")
 	static void SetOrgID_BFL(const FString szOrgID);
 
-	UFUNCTION(BlueprintCallable, Category = "iXRLib")
+	UFUNCTION(BlueprintCallable, Category = "AbxrLib")
 	static bool TokenExpirationImminent_BFL();
 	
-	UFUNCTION(BlueprintCallable, Category = "iXRLib")
+	UFUNCTION(BlueprintCallable, Category = "AbxrLib")
 	static int GetPartner_BFL();
 	
-	UFUNCTION(BlueprintCallable, Category = "iXRLib")
+	UFUNCTION(BlueprintCallable, Category = "AbxrLib")
 	static void SetPartner_BFL(const int ePartner);
 	
-	UFUNCTION(BlueprintCallable, Category = "iXRLib")
+	UFUNCTION(BlueprintCallable, Category = "AbxrLib")
 	static FString GetOsVersion_BFL();
 	
-	UFUNCTION(BlueprintCallable, Category = "iXRLib")
+	UFUNCTION(BlueprintCallable, Category = "AbxrLib")
 	static void SetOsVersion_BFL(const FString szOsVersion);
 
 	// const FString GetDataPath_BFL();
 	// static void SetDataPath_BFL(const FString szDataPath);
 	
-	UFUNCTION(BlueprintCallable, Category = "iXRLib")
+	UFUNCTION(BlueprintCallable, Category = "AbxrLib")
 	static FString GetIpAddress_BFL();
 	
-	UFUNCTION(BlueprintCallable, Category = "iXRLib")
+	UFUNCTION(BlueprintCallable, Category = "AbxrLib")
 	static void SetIpAddress_BFL(const FString szIpAddress);
 
-	UFUNCTION(BlueprintCallable, Category = "iXRLib")
+	UFUNCTION(BlueprintCallable, Category = "AbxrLib")
 	static const FString GetUserId_BFL();
 	
-	UFUNCTION(BlueprintCallable, Category = "iXRLib")
+	UFUNCTION(BlueprintCallable, Category = "AbxrLib")
 	static void SetUserId_BFL(const FString szUserId);
 	
-	UFUNCTION(BlueprintCallable, Category = "iXRLib")
+	UFUNCTION(BlueprintCallable, Category = "AbxrLib")
 	static FString GetXrdmVersion_BFL();
 	
-	UFUNCTION(BlueprintCallable, Category = "iXRLib")
+	UFUNCTION(BlueprintCallable, Category = "AbxrLib")
 	static void SetXrdmVersion_BFL(const FString szXrdmVersion);
 	
-	UFUNCTION(BlueprintCallable, Category = "iXRLib")
+	UFUNCTION(BlueprintCallable, Category = "AbxrLib")
 	static FString GetAppVersion_BFL();
 	
-	UFUNCTION(BlueprintCallable, Category = "iXRLib")
+	UFUNCTION(BlueprintCallable, Category = "AbxrLib")
 	static void SetAppVersion_BFL(const FString szAppVersion);
 	
-	UFUNCTION(BlueprintCallable, Category = "iXRLib")
+	UFUNCTION(BlueprintCallable, Category = "AbxrLib")
 	static FString GetUnrealVersion_BFL();
 	
-	UFUNCTION(BlueprintCallable, Category = "iXRLib")
+	UFUNCTION(BlueprintCallable, Category = "AbxrLib")
 	static void SetUnrealVersion_BFL(const FString szUnityVersion);
 	
-	UFUNCTION(BlueprintCallable, Category = "iXRLib")
+	UFUNCTION(BlueprintCallable, Category = "AbxrLib")
 	static FString GetDeviceModel_BFL();
 	
-	UFUNCTION(BlueprintCallable, Category = "iXRLib")
+	UFUNCTION(BlueprintCallable, Category = "AbxrLib")
 	static void SetDeviceModel_BFL(const FString szDeviceModel);
 	
-	UFUNCTION(BlueprintCallable, Category = "iXRLib")
+	UFUNCTION(BlueprintCallable, Category = "AbxrLib")
 	static FString GetTags_BFL();
 	
-	UFUNCTION(BlueprintCallable, Category = "iXRLib")
+	UFUNCTION(BlueprintCallable, Category = "AbxrLib")
 	static void SetTags_BFL(const FString szlszTags);
 	
-	UFUNCTION(BlueprintCallable, Category = "iXRLib")
+	UFUNCTION(BlueprintCallable, Category = "AbxrLib")
 	static FString GetGeoLocation_BFL();
 	
-	UFUNCTION(BlueprintCallable, Category = "iXRLib")
+	UFUNCTION(BlueprintCallable, Category = "AbxrLib")
 	static void SetGeoLocation_BFL(const FString szdictGeoLocation);
 	
-	UFUNCTION(BlueprintCallable, Category = "iXRLib")
+	UFUNCTION(BlueprintCallable, Category = "AbxrLib")
 	static const FString GetSessionAuthMechanism_BFL();
 
-	UFUNCTION(BlueprintCallable, Category = "iXRLib")
+	UFUNCTION(BlueprintCallable, Category = "AbxrLib")
 	static void SetSessionAuthMechanism_BFL(const FString szdictValue);
 
-	UFUNCTION(BlueprintCallable, Category = "iXRLib")
+	UFUNCTION(BlueprintCallable, Category = "AbxrLib")
 	static const FString GetAppConfigAuthMechanism_BFL();
 
-	UFUNCTION(BlueprintCallable, Category = "iXRLib")
+	UFUNCTION(BlueprintCallable, Category = "AbxrLib")
 	static void SetAppConfigAuthMechanism_BFL(const FString szdictValue);
 	
-	UFUNCTION(BlueprintCallable, Category = "iXRLib")
+	UFUNCTION(BlueprintCallable, Category = "AbxrLib")
 	static FString StorageGetDefaultEntryAsString_BFL();
 	
-	UFUNCTION(BlueprintCallable, Category = "iXRLib")
+	UFUNCTION(BlueprintCallable, Category = "AbxrLib")
 	static FString StorageGetEntryAsString_BFL(const FString wszName);
 	
-	UFUNCTION(BlueprintCallable, Category = "iXRLib")
+	UFUNCTION(BlueprintCallable, Category = "AbxrLib")
 	static int StorageSetDefaultEntryFromString_BFL(const FString wszStorageEntry, const bool bKeepLatest, const FString wszOrigin, const bool bSessionData);
 	
-	UFUNCTION(BlueprintCallable, Category = "iXRLib")
+	UFUNCTION(BlueprintCallable, Category = "AbxrLib")
 	static int StorageSetEntryFromString_BFL(const FString wszName, const FString wszStorageEntry, const bool bKeepLatest, const FString wszOrigin, const bool bSessionData);
 	
-	UFUNCTION(BlueprintCallable, Category = "iXRLib")
+	UFUNCTION(BlueprintCallable, Category = "AbxrLib")
 	static int StorageRemoveDefaultEntry_BFL();
 	
-	UFUNCTION(BlueprintCallable, Category = "iXRLib")
+	UFUNCTION(BlueprintCallable, Category = "AbxrLib")
 	static int StorageRemoveEntry_BFL(const FString wszName);
 	
-	UFUNCTION(BlueprintCallable, Category = "iXRLib")
+	UFUNCTION(BlueprintCallable, Category = "AbxrLib")
 	static int StorageRemoveMultipleEntries_BFL(const bool bSessionOnly);
 	
-	UFUNCTION(BlueprintCallable, Category = "iXRLib")
+	UFUNCTION(BlueprintCallable, Category = "AbxrLib")
 	static FString GetRestUrl_BFL();
 	
-	UFUNCTION(BlueprintCallable, Category = "iXRLib")
+	UFUNCTION(BlueprintCallable, Category = "AbxrLib")
 	static void SetRestUrl_BFL(const FString szValue);
 	
-	UFUNCTION(BlueprintCallable, Category = "iXRLib")
+	UFUNCTION(BlueprintCallable, Category = "AbxrLib")
 	static int GetSendRetriesOnFailure_BFL();
 	
-	UFUNCTION(BlueprintCallable, Category = "iXRLib")
+	UFUNCTION(BlueprintCallable, Category = "AbxrLib")
 	static void SetSendRetriesOnFailure_BFL(int nValue);
 	
-	UFUNCTION(BlueprintCallable, Category = "iXRLib")
+	UFUNCTION(BlueprintCallable, Category = "AbxrLib")
 	static double GetSendRetryInterval_BFL();
 	
-	UFUNCTION(BlueprintCallable, Category = "iXRLib")
+	UFUNCTION(BlueprintCallable, Category = "AbxrLib")
 	static void SetSendRetryInterval_BFL(double tsValue);
 	
-	UFUNCTION(BlueprintCallable, Category = "iXRLib")
+	UFUNCTION(BlueprintCallable, Category = "AbxrLib")
 	static double GetSendNextBatchWait_BFL();
 	
-	UFUNCTION(BlueprintCallable, Category = "iXRLib")
+	UFUNCTION(BlueprintCallable, Category = "AbxrLib")
 	static void SetSendNextBatchWait_BFL(double tsValue);
 	
-	UFUNCTION(BlueprintCallable, Category = "iXRLib")
+	UFUNCTION(BlueprintCallable, Category = "AbxrLib")
 	static double GetStragglerTimeout_BFL();
 	
-	UFUNCTION(BlueprintCallable, Category = "iXRLib")
+	UFUNCTION(BlueprintCallable, Category = "AbxrLib")
 	static void SetStragglerTimeout_BFL(double tsValue);
 	
-	UFUNCTION(BlueprintCallable, Category = "iXRLib")
+	UFUNCTION(BlueprintCallable, Category = "AbxrLib")
 	static int GetEventsPerSendAttempt_BFL();
 	
-	UFUNCTION(BlueprintCallable, Category = "iXRLib")
+	UFUNCTION(BlueprintCallable, Category = "AbxrLib")
 	static void SetEventsPerSendAttempt_BFL(int nValue);
 	
-	UFUNCTION(BlueprintCallable, Category = "iXRLib")
+	UFUNCTION(BlueprintCallable, Category = "AbxrLib")
 	static int GetLogsPerSendAttempt_BFL();
 	
-	UFUNCTION(BlueprintCallable, Category = "iXRLib")
+	UFUNCTION(BlueprintCallable, Category = "AbxrLib")
 	static void SetLogsPerSendAttempt_BFL(int nValue);
 	
-	UFUNCTION(BlueprintCallable, Category = "iXRLib")
+	UFUNCTION(BlueprintCallable, Category = "AbxrLib")
 	static int GetTelemetryEntriesPerSendAttempt_BFL();
 	
-	UFUNCTION(BlueprintCallable, Category = "iXRLib")
+	UFUNCTION(BlueprintCallable, Category = "AbxrLib")
 	static void SetTelemetryEntriesPerSendAttempt_BFL(int nValue);
 	
-	UFUNCTION(BlueprintCallable, Category = "iXRLib")
+	UFUNCTION(BlueprintCallable, Category = "AbxrLib")
 	static int GetStorageEntriesPerSendAttempt_BFL();
 	
-	UFUNCTION(BlueprintCallable, Category = "iXRLib")
+	UFUNCTION(BlueprintCallable, Category = "AbxrLib")
 	static void SetStorageEntriesPerSendAttempt_BFL(int nValue);
 	
-	UFUNCTION(BlueprintCallable, Category = "iXRLib")
+	UFUNCTION(BlueprintCallable, Category = "AbxrLib")
 	static double GetPruneSentItemsOlderThan_BFL();
 	
-	UFUNCTION(BlueprintCallable, Category = "iXRLib")
+	UFUNCTION(BlueprintCallable, Category = "AbxrLib")
 	static void SetPruneSentItemsOlderThan_BFL(double tsValue);
 	
-	UFUNCTION(BlueprintCallable, Category = "iXRLib")
+	UFUNCTION(BlueprintCallable, Category = "AbxrLib")
 	static int GetMaximumCachedItems_BFL();
 	
-	UFUNCTION(BlueprintCallable, Category = "iXRLib")
+	UFUNCTION(BlueprintCallable, Category = "AbxrLib")
 	static void SetMaximumCachedItems_BFL(int nValue);
 	
-	UFUNCTION(BlueprintCallable, Category = "iXRLib")
+	UFUNCTION(BlueprintCallable, Category = "AbxrLib")
 	static bool GetRetainLocalAfterSent_BFL();
 	
-	UFUNCTION(BlueprintCallable, Category = "iXRLib")
+	UFUNCTION(BlueprintCallable, Category = "AbxrLib")
 	static void SetRetainLocalAfterSent_BFL(bool bValue);
 	
-	UFUNCTION(BlueprintCallable, Category = "iXRLib")
+	UFUNCTION(BlueprintCallable, Category = "AbxrLib")
 	static bool GetReAuthenticateBeforeTokenExpires_BFL();
 	
-	UFUNCTION(BlueprintCallable, Category = "iXRLib")
+	UFUNCTION(BlueprintCallable, Category = "AbxrLib")
 	static void SetReAuthenticateBeforeTokenExpires_BFL(bool bValue);
 	
-	UFUNCTION(BlueprintCallable, Category = "iXRLib")
+	UFUNCTION(BlueprintCallable, Category = "AbxrLib")
 	static bool GetUseDatabase_BFL();
 	
-	UFUNCTION(BlueprintCallable, Category = "iXRLib")
+	UFUNCTION(BlueprintCallable, Category = "AbxrLib")
 	static void SetUseDatabase_BFL(bool bValue);
 	
-	UFUNCTION(BlueprintCallable, Category = "iXRLib")
+	UFUNCTION(BlueprintCallable, Category = "AbxrLib")
 	static bool ReadConfig_BFL();
 	
-	UFUNCTION(BlueprintCallable, Category = "iXRLib")
+	UFUNCTION(BlueprintCallable, Category = "AbxrLib")
 	static bool GetAuthSecretCSharp_BFL();
 	
-	UFUNCTION(BlueprintCallable, Category = "iXRLib")
+	UFUNCTION(BlueprintCallable, Category = "AbxrLib")
 	static void SetGetAuthSecretCallbackRet_BFL(const FString szAuthSecret);
 	
-	UFUNCTION(BlueprintCallable, Category = "iXRLib")
+	UFUNCTION(BlueprintCallable, Category = "AbxrLib")
 	static void SetServingCSharp_BFL(const bool bServingCSharp);
 	
-	UFUNCTION(BlueprintCallable, Category = "iXRLib")
+	UFUNCTION(BlueprintCallable, Category = "AbxrLib")
 	static bool GetNextDiagnosticString_BFL(FString& pbstrString);
 
 	// TODO: add enum class instead of unit8
-	UFUNCTION(BlueprintCallable, Category = "iXRLib")
+	UFUNCTION(BlueprintCallable, Category = "AbxrLib")
 	static uint8 HTTPGet_BFL(const FString bstrUrl, FString& pbstrResponse);
 
 	// TODO: add enum class instead of unit8
-	UFUNCTION(BlueprintCallable, Category = "iXRLib")
+	UFUNCTION(BlueprintCallable, Category = "AbxrLib")
 	static uint8 HTTPPost_BFL(const FString bstrUrl, FString& pbstrResponse);
 
 	// TODO:
-	// UFUNCTION(BlueprintCallable, Category = "iXRLib")
-	// int iXRLibAnalyticsTests_BFL(int argc, char* argv[]);
+	// UFUNCTION(BlueprintCallable, Category = "AbxrLib")
+	// int AbxrLibAnalyticsTests_BFL(int argc, char* argv[]);
 	
-	UFUNCTION(BlueprintCallable, Category = "iXRLib")
-	static int iXRLibAnalyticsTestsInterop_BFL(const FString bstrCommandLine);
+	UFUNCTION(BlueprintCallable, Category = "AbxrLib")
+	static int AbxrLibAnalyticsTestsInterop_BFL(const FString bstrCommandLine);
 	
-	// UFUNCTION(BlueprintCallable, Category = "iXRLib")
+	// UFUNCTION(BlueprintCallable, Category = "AbxrLib")
 	// static FString TestGetAuthSecretCallback_BFL();
 
 	static TMap<FString, FString> StringToMap(const FString& InputString);

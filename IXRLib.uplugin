@@ -2,7 +2,7 @@
 	"FileVersion": 3,
 	"Version": 1,
 	"VersionName": "1.0",
-	"FriendlyName": "IXRLib",
+	"FriendlyName": "AbxrLib",
 	"Description": "",
 	"Category": "Other",
 	"CreatedBy": "ninevastudios",
@@ -16,7 +16,7 @@
 	"Installed": false,
 	"Modules": [
 		{
-			"Name": "IXRLib",
+			"Name": "AbxrLib",
 			"Type": "Runtime",
 			"LoadingPhase": "Default"
 		}

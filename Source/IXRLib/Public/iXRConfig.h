@@ -1,9 +1,9 @@
 ﻿#pragma once
 
-#include "iXRConfig.generated.h"
+#include "AbxrConfig.generated.h"
 
 USTRUCT()
-struct FiXRConfig
+struct FAbxrConfig
 {
 	GENERATED_BODY()
 	
